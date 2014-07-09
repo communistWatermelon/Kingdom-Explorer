@@ -16,7 +16,7 @@ function love.load()
 end
 
 function love.update(dt)
-	moveCharacter(dt)
+	moveCharacter(dt2)
 end
 
 function love.resize(w, h)
