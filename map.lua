@@ -4,7 +4,7 @@ local quadType = {}
 function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
 	tileW = tileWidth
 	tileH = tileHeight
-	tileset = love.graphics.newImage(tilesetPath)
+	tileset = lg.newImage(tilesetPath)
 
 	local tilesetW, tilesetH = tileset:getWidth(), tileset:getHeight()
 
@@ -13,7 +13,7 @@ function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
 
 	quadType = quadInfo
 	for _, info in ipairs(quadInfo) do
-		quads[info[1]] = love.graphics.newQuad(info[2], info[3], tileW,  tileH, tilesetW, tilesetH)
+		quads[info[1]] = lg.newQuad(info[2], info[3], tileW,  tileH, tilesetW, tilesetH)
 	end
 
 	local width = #(tileString:match("[^\n]+"))
@@ -33,7 +33,6 @@ function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
 end
 
 function transition(direction, x, y)
-	print("Transitioning: " .. direction)
 	if direction == "u" then
 		transitionCharacter(x, 576 - y)
 		loadMap('/maps/map1.lua')
@@ -56,9 +55,6 @@ function checkTile(x, y)
 	y = y + 32
 	local fx, fy = math.floor(x / tileW), math.floor(y / tileH)
 	local cx, cy = math.ceil(x / tileW), math.ceil(y / tileH)
-
-	print("f:" .. fy)
-	print("c:" .. cy)
 
 	if fx == 0 then
 		transition("l", x, y)
@@ -98,7 +94,7 @@ function checkTile(x, y)
 end
 
 function loadMap(path)
-	local f = love.filesystem.load(path) -- attention! extra parenthesis
+	local f = lf.load(path) -- attention! extra parenthesis
 	f()
 end
 
@@ -106,7 +102,7 @@ function drawMap()
 for columnIndex, column in ipairs(tileTable) do
 		for rowIndex, char in ipairs(column) do 
 			local x,y = (columnIndex - 1) * tileW, (rowIndex - 1) * tileH
-			love.graphics.draw(tileset, quads[char], x, y)
+			lg.draw(tileset, quads[char], x, y)
 		end
 	end
 end

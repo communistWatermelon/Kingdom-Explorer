@@ -9,24 +9,29 @@ require('map')
 require('character')
 require('item')
 
+lk = love.keyboard
+lw = love.window
+lg = love.graphics
+lm = love.mouse
+lf = love.filesystem
+
 function love.load()
 	love.resize(love.window.getWidth(), love.window.getHeight())
 	maps = {'coredump', 'chez-peter', 'map1'}
 	loadMap('/maps/' .. maps[1] .. '.lua')
 	loadCharacter()
-	loadSword()
 end
 
 function love.update(dt)
-	if love.keyboard.isDown("i") then
+	if lk.isDown("i") then
 		drawInventory()
 	end
 
-	if love.keyboard.isDown("g") then
+	if lk.isDown("g") then
 		addToInventory("sword")
 	end
 
-	if love.keyboard.isDown("e") then
+	if lk.isDown("e") then
 		equipItem("sword")
 	end
 
@@ -40,9 +45,9 @@ function love.resize(w, h)
 end
 
 function love.draw()
-	love.graphics.push()
-	love.graphics.scale(scaleW, scaleH)
+	lg.push()
+	lg.scale(scaleW, scaleH)
 	drawMap(currentMap)
 	drawCharacter()
-	love.graphics.pop()
+	lg.pop()
 end

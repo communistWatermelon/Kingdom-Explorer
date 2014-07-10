@@ -15,8 +15,10 @@ function consumeItem()
 		-- else remove 1 from stack
 end
 
-function useItem()
-
+function useItem(item, target)
+	-- uses the items on the target
+	-- target example: useItem("sword", "mob1") -> attack mob1 with sword
+	-- example two useItem("sword","cuttable_tree") -> cut down the tree
 end
 
 function drawItems(items)
@@ -25,5 +27,5 @@ end
 
 function drawItem(item, x, y)
 	-- change this to the actual item
-	love.graphics.rectangle("fill", x, y, 5, 60)
+	lg.rectangle("fill", x, y, 5, 60)
 end
