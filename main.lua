@@ -7,15 +7,29 @@ handles controls, health, damage
 --]]
 require('map')
 require('character')
+require('item')
 
 function love.load()
 	love.resize(love.window.getWidth(), love.window.getHeight())
 	maps = {'coredump', 'chez-peter', 'map1'}
 	loadMap('/maps/' .. maps[1] .. '.lua')
 	loadCharacter()
+	loadSword()
 end
 
 function love.update(dt)
+	if love.keyboard.isDown("i") then
+		drawInventory()
+	end
+
+	if love.keyboard.isDown("g") then
+		addToInventory("sword")
+	end
+
+	if love.keyboard.isDown("e") then
+		equipItem("sword")
+	end
+
 	moveCharacter(dt)
 end
 
