@@ -9,6 +9,8 @@ require('map')
 require('character')
 
 function love.load()
+	destX = 0
+	destY = 0
 	love.resize(love.window.getWidth(), love.window.getHeight())
 	maps = {'coredump', 'chez-peter', 'map1'}
 	loadMap('/maps/' .. maps[1] .. '.lua')
