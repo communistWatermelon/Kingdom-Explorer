@@ -22,9 +22,7 @@ function mouseMoveCharacter(dt)
 		if checkTile(tempx, tempy) then
 			hero.x = tempx
 		end
-	end
-
-	if diffX < 0 then 
+	elseif diffX < 0 then 
 		tempx = hero.x - (hero.speed * dt)
 		if checkTile(tempx, tempy) then
 			hero.x = tempx
@@ -36,9 +34,7 @@ function mouseMoveCharacter(dt)
 		if checkTile(tempx, tempy) then
 			hero.y = tempy
 		end
-	end
-
-	if diffY < 0 then 
+	elseif diffY < 0 then 
 		tempy = hero.y - (hero.speed * dt)
 		if checkTile(tempx, tempy) then
 			hero.y = tempy
@@ -50,13 +46,17 @@ function moveCharacter(dt)
 	local tempx = hero.x
 	local tempy = hero.y
 
+	if love.mouse.isDown("l") then
+		mouseMoveCharacter(dt)
+		return
+	end
+
 	if love.keyboard.isDown("left") then
 		tempx = hero.x - (hero.speed * dt)
 		if checkTile(tempx, tempy) then
 			hero.x = tempx
 		end
-	end
-	if love.keyboard.isDown("right") then
+	elseif love.keyboard.isDown("right") then
 		tempx = hero.x + (hero.speed * dt)
 		if checkTile(tempx, tempy) then
 			hero.x = tempx
@@ -67,16 +67,11 @@ function moveCharacter(dt)
 		if checkTile(tempx, tempy) then
 			hero.y = tempy
 		end	
-	end
-	if love.keyboard.isDown("down") then
+	elseif love.keyboard.isDown("down") then
 		tempy = hero.y + (hero.speed * dt)
 		if checkTile(tempx, tempy) then
 			hero.y = tempy
 		end	
-	end
-
-	if love.mouse.isDown("l") then
-		mouseMoveCharacter(dt)
 	end
 end
 
