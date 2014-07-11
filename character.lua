@@ -2,8 +2,8 @@ local hero
 local inv = {}
 
 function loadCharacter()
-	hero = { x = 500, y = 32, speed = 100, inventory = inv, equipped = nil }
-	addToInventory("butts")
+	hero = { x = 500, y = 32, speed = 100, health = 100, inventory = inv, equipped = nil }
+	addToInventory("sword")
 end
 
 function transitionCharacter(x, y)
@@ -11,37 +11,71 @@ function transitionCharacter(x, y)
 	hero.y = y
 end
 
-function mouseMoveCharacter(dt)
+function mouseMoveCharacter(dt, x, y)
 	local tempx = hero.x
 	local tempy = hero.y
-	x, y = lm.getPosition()
 
-	diffX = x - hero.x
-	diffY = y - hero.y
-
-	if diffX > 0 then
-		tempx = hero.x + (hero.speed * dt)
-		if checkTile(tempx, tempy) then
-			hero.x = tempx
+	if (math.abs(x) > 5) then
+		if math.abs(x) < 50 then
+			modx = 0.3
+		else
+			modx = 1
 		end
-	elseif diffX < 0 then 
-		tempx = hero.x - (hero.speed * dt)
-		if checkTile(tempx, tempy) then
-			hero.x = tempx
+
+		if x > 0 then
+			tempx = hero.x + (hero.speed * dt * modx)
+			if checkTile(tempx, tempy) then
+				hero.x = tempx
+			end
+		end
+		if x < 0 then 
+			tempx = hero.x - (hero.speed * dt * modx)
+			if checkTile(tempx, tempy) then
+				hero.x = tempx
+			end
 		end
 	end
 
-	if diffY > 0 then 
-		tempy = hero.y + (hero.speed * dt)
-		if checkTile(tempx, tempy) then
-			hero.y = tempy
+	if(math.abs(y) > 5) then
+		if math.abs(y) < 50 then
+			mody = 0.3
+		else
+			mody = 1
 		end
-	elseif diffY < 0 then 
-		tempy = hero.y - (hero.speed * dt)
-		if checkTile(tempx, tempy) then
-			hero.y = tempy
+		if y > 0 then 
+			tempy = hero.y + (hero.speed * dt * mody)
+			if checkTile(tempx, tempy) then
+				hero.y = tempy
+			end
 		end
-	end 
+		if y < 0 then 
+			tempy = hero.y - (hero.speed * dt * mody)
+			if checkTile(tempx, tempy) then
+				hero.y = tempy
+			end
+		end 
+	end
+end
+
+
+function getSpeed()
+	return hero.speed
+end
+
+function changeSpeed(change)
+	-- adds 'change' to the hero's speed
+	-- if change is negative, hero loses speed
+	hero.speed = hero.speed + change
+end
+
+function changeHealth(change)
+	-- adds 'change' to the hero's health
+	-- if change is negative, hero loses health
+	hero.health = hero.health + change
+end
+
+function getHealth()
+	return hero.health
 end
 
 function addToInventory(item)
@@ -52,12 +86,12 @@ function drawInventory()
 	print(hero.inventory[1])
 end
 
-function moveCharacter(dt)
+function moveCharacter(dt, x, y)
 	local tempx = hero.x
 	local tempy = hero.y
 
 	if lm.isDown("l") then
-		mouseMoveCharacter(dt)
+		mouseMoveCharacter(dt, x, y)
 		return
 	end
 

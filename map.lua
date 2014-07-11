@@ -45,12 +45,10 @@ function transition(direction, x, y)
 	else
 		transitionCharacter(10, y)
 		loadMap('/maps/chez-peter.lua')
-	end
-	
+	end	
 end
 
 function checkTile(x, y)
-
 	x = x + 32
 	y = y + 32
 	local fx, fy = math.floor(x / tileW), math.floor(y / tileH)
@@ -94,12 +92,12 @@ function checkTile(x, y)
 end
 
 function loadMap(path)
-	local f = lf.load(path) -- attention! extra parenthesis
+	local f = lf.load(path)
 	f()
 end
 
 function drawMap()
-for columnIndex, column in ipairs(tileTable) do
+	for columnIndex, column in ipairs(tileTable) do
 		for rowIndex, char in ipairs(column) do 
 			local x,y = (columnIndex - 1) * tileW, (rowIndex - 1) * tileH
 			lg.draw(tileset, quads[char], x, y)

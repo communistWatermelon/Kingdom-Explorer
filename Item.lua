@@ -1,13 +1,12 @@
--- temp function
-function loadSword()
-	sword = { atk = 1 }
-end
+-- these are generic versions of the item functions
+-- pass the item name to the function, and that items function will be called
+-- ex. loadItem(sword, x, y) -> loadSword(x, y)
 
 function loadItem(item, x, y)
 	-- loads item 
 end
 
-function consumeItem()
+function consumeItem(item)
 	--check if consumable
 		-- if consumable, add effects
 		-- if only 1 of item

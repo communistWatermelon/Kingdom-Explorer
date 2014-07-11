@@ -8,6 +8,7 @@ handles controls, health, damage
 require('map')
 require('character')
 require('item')
+require('hud')
 
 lk = love.keyboard
 lw = love.window
@@ -16,10 +17,12 @@ lm = love.mouse
 lf = love.filesystem
 
 function love.load()
-	love.resize(love.window.getWidth(), love.window.getHeight())
+	diffX = 0
+	diffY = 0
 	maps = {'coredump', 'chez-peter', 'map1'}
 	loadMap('/maps/' .. maps[1] .. '.lua')
 	loadCharacter()
+	loadOverlay()
 end
 
 function love.update(dt)
@@ -27,27 +30,41 @@ function love.update(dt)
 		drawInventory()
 	end
 
-	if lk.isDown("g") then
-		addToInventory("sword")
-	end
-
 	if lk.isDown("e") then
 		equipItem("sword")
 	end
 
-	moveCharacter(dt)
+	moveCharacter(dt, diffX, diffY)
+	diffX, diffY = updateOverlay(dt)
+end
+
+function love.mousepressed(x, y, button)
+	if button == "l" then
+		controllerPressed(x, y)	
+	end
+end
+
+function love.mousereleased(x, y, button)
+	if button == "l" then 
+		controllerReleased() 
+	end
 end
 
 function love.resize(w, h)
-	width, height = w, h
-	scaleW = width / 800
-	scaleH = height / 576
+	scaleW = w / 800
+	scaleH = h / 576
+
+	resizeOverlay(w, h)
 end
 
 function love.draw()
 	lg.push()
 	lg.scale(scaleW, scaleH)
+	
 	drawMap(currentMap)
 	drawCharacter()
+
 	lg.pop()
+
+	drawOverlay()
 end
