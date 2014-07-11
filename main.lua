@@ -15,12 +15,13 @@ lw = love.window
 lg = love.graphics
 lm = love.mouse
 lf = love.filesystem
+transing = false
 
 function love.load()
 	diffX = 0
 	diffY = 0
-	maps = {'coredump', 'chez-peter', 'map1'}
-	loadMap('/maps/' .. maps[1] .. '.lua')
+	maps = {'coredump', 'chez-peter', 'map1', 'map2'}
+	loadMap('/maps/' .. maps[4] .. '.lua')
 	loadCharacter()
 	loadOverlay()
 end
@@ -41,6 +42,11 @@ end
 function love.mousepressed(x, y, button)
 	if button == "l" then
 		controllerPressed(x, y)	
+	end
+
+	if button == "r" then
+		print(lm.getPosition())
+		print(getLocation())
 	end
 end
 

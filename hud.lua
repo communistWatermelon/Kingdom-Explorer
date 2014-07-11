@@ -1,14 +1,16 @@
 require('math')
 require('utils')
+require('character')
 
 local ctrlr
 local cWidth
 local cHeight
 local xDivider
 local yDivider
+local maxMovement
 
 function loadHud()
-	
+	heroHealth = getHealth()
 end
 
 function loadController()
@@ -16,6 +18,8 @@ function loadController()
 	cHeight = lg.getHeight()
 	xDivider = 8
 	yDivider = 4
+	maxMovement = 100
+
 	tileset = lg.newImage("/assets/circle.png")
 	ctrlr = {
 		x = cWidth / xDivider, 
@@ -49,7 +53,7 @@ function updateController(dt)
 	if ctrlr.dragging.active then
 		local tempX = lm.getX()
 		local tempY = lm.getY()
-		if (math.dist(cWidth / xDivider, (cHeight - (cHeight / yDivider)), tempX, tempY) < 100) then
+		if (math.dist(cWidth / xDivider, (cHeight - (cHeight / yDivider)), tempX, tempY) < maxMovement) then
 			ctrlr.x = lm.getX() - ctrlr.dragging.diffX
 			ctrlr.y = lm.getY() - ctrlr.dragging.diffY
 		end
@@ -91,7 +95,7 @@ end
 function drawHud()
 	-- draws the health bar, money, and what ever else
 	lg.rectangle("line", 20, 20, 400, 16)
-	lg.rectangle("fill", 25, 25, getHealth()*4, 16)
+	lg.rectangle("fill", 25, 25, heroHealth*4, 16)
 end
 
 function drawController()

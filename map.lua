@@ -34,18 +34,49 @@ end
 
 function transition(direction, x, y)
 	if direction == "u" then
-		transitionCharacter(x, 576 - y)
-		loadMap('/maps/map1.lua')
+		loadMap('/maps/' .. transitionCharacter(findSpawn(x, y)))
 	elseif direction == "d" then
-		transitionCharacter(x, 10)
-		loadMap('/maps/map2.lua')
+		loadMap('/maps/' .. transitionCharacter(findSpawn(x, y)))
 	elseif direction == "l" then
-		transitionCharacter(800 - x, y)
-		loadMap('/maps/coredump.lua')
-	else
-		transitionCharacter(10, y)
-		loadMap('/maps/chez-peter.lua')
-	end	
+		loadMap('/maps/' .. transitionCharacter(findSpawn(x, y)))
+	elseif direction == "r" then
+		loadMap('/maps/' .. transitionCharacter(findSpawn(x, y)))
+	end
+end
+
+function findSpawn(x, y)
+	x = (lg.getWidth() - x) - 32 
+	y =  (lg.getHeight() - y) - 32
+	local fx, fy = math.floor(x / tileW), math.floor(y / tileH)
+	local cx, cy = math.ceil(x / tileW), math.ceil(y / tileH)
+
+	corners = { 
+		tileTable[fx][fy],
+		tileTable[cx][fy],
+		tileTable[cx][cy],
+		tileTable[fx][cy]
+	}
+
+	local spawn = ""
+	local sX = 0
+	local sY = 0
+
+	for key,value in ipairs(corners) do
+		for i=1, #quadType do
+			if (quadType[i][1] == value) then
+				spawn = quadType[i][1]
+
+				if spawn == "$" then
+					sX = cx
+					sY = cy
+				end
+			end
+		end
+	end
+	return cx*tileW, cy*tileH
+
+	-- find the spawn point opposite to the points you came in on
+
 end
 
 function checkTile(x, y)
@@ -53,20 +84,6 @@ function checkTile(x, y)
 	y = y + 32
 	local fx, fy = math.floor(x / tileW), math.floor(y / tileH)
 	local cx, cy = math.ceil(x / tileW), math.ceil(y / tileH)
-
-	if fx == 0 then
-		transition("l", x, y)
-		return false
-	elseif fy == 0 then
-		transition("u", x, y)
-		return false
-	elseif cx == 26 then
-		transition("r", x, y)
-		return false
-	elseif cy == 19 then
-		transition("d", x, y)
-		return false
-	end
 
 	corners = { 
 		tileTable[fx][fy],
@@ -76,10 +93,27 @@ function checkTile(x, y)
 	}
 
 	local result = true
+	local teleport = 0
+
 	for key,value in ipairs(corners) do
 		for i=1, #quadType do
 			if (quadType[i][1] == value) then
 				result = quadType[i][4]
+				teleport = quadType[i][1]
+
+				if teleport == "U" then
+					transition('u', x, y, quadType[i][4])
+					return
+				--[[elseif teleport == "D" then
+				--	transition('d', x, y, quadType[i][4])
+			--		return
+				elseif teleport == "R" then	
+					transition('r', x, y, quadType[i][4])
+					return
+				elseif teleport == "L" then
+					transition('l', x, y, quadType[i][4])
+					return]]
+				end
 
 				if (not result) then
 					return result

@@ -2,7 +2,7 @@ local hero
 local inv = {}
 
 function loadCharacter()
-	hero = { x = 500, y = 32, speed = 100, health = 100, inventory = inv, equipped = nil }
+	hero = { x = 400, y = 32, speed = 100, health = 100, inventory = inv, equipped = nil }
 	addToInventory("sword")
 end
 
@@ -57,8 +57,13 @@ function mouseMoveCharacter(dt, x, y)
 	end
 end
 
+function getLocation()
+	-- body
+	return hero.x, hero.y
+end
 
 function getSpeed()
+	--body
 	return hero.speed
 end
 
@@ -75,20 +80,25 @@ function changeHealth(change)
 end
 
 function getHealth()
+	--body
 	return hero.health
 end
 
 function addToInventory(item)
+	--body
 	hero.inventory[1] = item
 end
 
 function drawInventory()
+	--body
 	print(hero.inventory[1])
 end
 
 function moveCharacter(dt, x, y)
 	local tempx = hero.x
 	local tempy = hero.y
+
+	--print(hero.x .. " " .. hero.y)
 
 	if lm.isDown("l") then
 		mouseMoveCharacter(dt, x, y)
@@ -115,7 +125,7 @@ function moveCharacter(dt, x, y)
 	elseif lk.isDown("down") then
 		tempy = hero.y + (hero.speed * dt)
 		if checkTile(tempx, tempy) then
-			hero.y = tempy
+				hero.y = tempy
 		end	
 	end
 end
