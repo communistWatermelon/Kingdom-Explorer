@@ -2,7 +2,7 @@ local hero
 local inv = {}
 
 function loadCharacter()
-	hero = { x = 400, y = 32, speed = 100, health = 100, inventory = inv, equipped = nil }
+	hero = { x = 66, y = 306, speed = 100, health = 100, inventory = inv, equipped = nil }
 	addToInventory("sword")
 end
 
@@ -97,8 +97,6 @@ end
 function moveCharacter(dt, x, y)
 	local tempx = hero.x
 	local tempy = hero.y
-
-	--print(hero.x .. " " .. hero.y)
 
 	if lm.isDown("l") then
 		mouseMoveCharacter(dt, x, y)

@@ -8,8 +8,8 @@ local tileString = [[
 #                   * * #
 # *                 l l #
 # l                      
-L$       ^              
-L       @              
+L$       ^               
+L       @                
 # *                      
 # l                     #
 #                       #
@@ -27,7 +27,9 @@ local quadInfo = {
   { 'A', 64,  0, false }, -- mainframe 2 top
   { '|', 64, 32, false }, -- maingrame 2 bottom
   { '*', 96,  0, false }, -- plant top
-  { 'l', 96, 32, false }  -- plant bottom
+  { 'l', 96, 32, false },  -- plant bottom
+  { 'L', 0, 0, "map1.lua" },  -- left teleport
+  { '$', 0, 0, true }
 }
 
 newMap(32,32,'/assets/lab.png', tileString, quadInfo)

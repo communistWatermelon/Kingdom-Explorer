@@ -15,13 +15,12 @@ lw = love.window
 lg = love.graphics
 lm = love.mouse
 lf = love.filesystem
-transing = false
 
 function love.load()
 	diffX = 0
 	diffY = 0
 	maps = {'coredump', 'chez-peter', 'map1', 'map2'}
-	loadMap('/maps/' .. maps[4] .. '.lua')
+	loadMap('/maps/' .. maps[1] .. '.lua')
 	loadCharacter()
 	loadOverlay()
 end
