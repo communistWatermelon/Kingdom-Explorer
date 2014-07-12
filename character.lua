@@ -2,7 +2,7 @@ local hero
 local inv = {}
 
 function loadCharacter()
-	hero = { x = 66, y = 306, speed = 100, health = 100, inventory = inv, equipped = nil }
+	hero = { x = 144, y = 144, speed = 100, health = 100, inventory = inv, equipped = nil }
 	addToInventory("sword")
 end
 

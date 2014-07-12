@@ -1,10 +1,17 @@
-local tileW, tileH, tileset, quads, tileTable
+local tileW, tileH, tileset, quads, tileTable, mapWidth, mapHeight, displayH, displayW, mapX, mapY
 local quadType = {}
 
+require('character')
+
 function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
+	mapX = 1
+	mapY = 1
 	tileW = tileWidth
 	tileH = tileHeight
 	tileset = lg.newImage(tilesetPath)
+
+	displayW = lg.getWidth() / tileW
+	displayH = lg.getHeight() / tileH
 
 	local tilesetW, tilesetH = tileset:getWidth(), tileset:getHeight()
 
@@ -30,6 +37,48 @@ function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
 		end
 		y= y + 1
 	end
+	mapWidth = (x - 1) * tileW
+	mapHeight = (y - 1) * tileH
+
+	--print(mapWidth .. " " .. mapHeight)
+end
+
+function updateTiles()
+	--[[for columnIndex, column in ipairs(tileTable) do
+		for rowIndex, char in ipairs(column) do 
+			if columnIndex < (displayW+1) and rowIndex < (displayH+1) then
+				mapX, mapY = (columnIndex - 1) * tileW, (rowIndex - 1) * tileH
+				lg.draw(tileset, quads[char], x+math.floor(mapX) , y+math.floor(mapY() )
+			end
+		end
+	end]]
+
+	for x=0, displayW-1 do
+		for y=0, displayH-1 do
+			--tilesetBatch:add(tileQuads[map[x+math.floor(mapX)][y+math.floor(mapY)]],x*tileSize, y*tileSize)
+			lg.draw(tileset, quads[' '], x, y)
+		end
+	end
+end
+
+function moveMap(dx, dy)
+	oldMapX = mapX
+	oldMapY = mapY
+
+	mapX = math.max(math.min(mapX + dx, mapWidth - displayW), 1)
+	mapY = math.max(math.min(mapY + dy, mapHeight - displayH), 1)
+
+	if math.floor(mapX) ~= math.floor(oldMapX) or math.floor(mapY) ~= math.floor(oldMapY) then
+		updateTiles()
+	end
+	-- only update if we actually moved
+end
+
+function resizeMap()
+	--body
+	displayW = lg.getWidth() / tileW
+	displayH = lg.getHeight() / tileH
+	print(displayW .. " " .. displayH)
 end
 
 function transition(direction, x, y, map)
@@ -82,7 +131,6 @@ function findSpawn(x, y)
 	end
 
 	return cx*tileW, cy*tileH
-
 end
 
 function checkTile(x, y)
@@ -140,8 +188,10 @@ end
 function drawMap()
 	for columnIndex, column in ipairs(tileTable) do
 		for rowIndex, char in ipairs(column) do 
-			local x,y = (columnIndex - 1) * tileW, (rowIndex - 1) * tileH
-			lg.draw(tileset, quads[char], x, y)
+			if columnIndex < (displayW+1) and rowIndex < (displayH+1) then
+				mapX, mapY = (columnIndex - 1) * tileW, (rowIndex - 1) * tileH
+				lg.draw(tileset, quads[char], mapX , mapY )
+			end
 		end
 	end
 end
