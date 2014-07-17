@@ -14,6 +14,8 @@ end
 function mouseMoveCharacter(dt, x, y)
 	local tempx = hero.x
 	local tempy = hero.y
+	local moveX  = ""
+	local moveY = ""
 
 	if (math.abs(x) > 5) then
 		if math.abs(x) < 50 then
@@ -26,12 +28,14 @@ function mouseMoveCharacter(dt, x, y)
 			tempx = hero.x + (hero.speed * dt * modx)
 			if checkTile(tempx, tempy) then
 				hero.x = tempx
+				moveX = "left"
 			end
 		end
 		if x < 0 then 
 			tempx = hero.x - (hero.speed * dt * modx)
 			if checkTile(tempx, tempy) then
 				hero.x = tempx
+				moveX = "right"
 			end
 		end
 	end
@@ -46,17 +50,19 @@ function mouseMoveCharacter(dt, x, y)
 			tempy = hero.y + (hero.speed * dt * mody)
 			if checkTile(tempx, tempy) then
 				hero.y = tempy
+				moveY = "up"
 			end
 		end
 		if y < 0 then 
 			tempy = hero.y - (hero.speed * dt * mody)
 			if checkTile(tempx, tempy) then
 				hero.y = tempy
+				moveY = "down"
 			end
 		end 
 	end
-
-	mouseMoveMap(dt, x, y)
+	
+	mouseMoveMap(dt, x, y, moveX, moveY)
 end
 
 function getLocation()
@@ -99,6 +105,8 @@ end
 function moveCharacter(dt, x, y)
 	local tempx = hero.x
 	local tempy = hero.y
+	local moveX = ""
+	local moveY = ""
 
 	if lm.isDown("l") then
 		mouseMoveCharacter(dt, x, y)
@@ -109,11 +117,13 @@ function moveCharacter(dt, x, y)
 		tempx = hero.x - (hero.speed * dt)
 		if checkTile(tempx, tempy) then
 			hero.x = tempx
+			moveX = "left"
 		end
 	elseif lk.isDown("right") then
 		tempx = hero.x + (hero.speed * dt)
 		if checkTile(tempx, tempy) then
 			hero.x = tempx
+			moveX = "right"
 		end
 	end
 	
@@ -121,15 +131,16 @@ function moveCharacter(dt, x, y)
 		tempy = hero.y - (hero.speed * dt)
 		if checkTile(tempx, tempy) then
 			hero.y = tempy
+			moveY = "up"
 		end	
 	elseif lk.isDown("down") then
 		tempy = hero.y + (hero.speed * dt)
 		if checkTile(tempx, tempy) then
-				hero.y = tempy
+			hero.y = tempy
+			moveY = "down"
 		end	
 	end
-
-	moveMap(dt)
+	moveMap(dt, moveX, moveY)
 end
 
 function equipItem(item)

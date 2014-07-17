@@ -20,7 +20,7 @@ L       @
 ]]
 
 local quadInfo = { 
-  { ' ',  0,  0, false}, -- gray floor
+  { ' ',  0,  0, true}, -- gray floor
   { '#',  0, 32, false }, -- brick wall
   { '^', 32,  0, false }, -- mainframe 1 top
   { '@', 32, 32, false }, -- mainframe 1 bottom

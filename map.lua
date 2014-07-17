@@ -40,7 +40,7 @@ function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
 	mapHeight = (y - 1) * tileH
 end
 
-function mouseMoveMap(dt, x, y)
+function mouseMoveMap(dt, x, y, mX, mY)
 	scrollSpeed = getSpeed()
 	local tempx = mapX
 	local tempy = mapY
@@ -52,17 +52,20 @@ function mouseMoveMap(dt, x, y)
 			modx = 1
 		end
 
-		if x < 0 then
-			tempx = mapX + (scrollSpeed * dt * modx)
-			if mapX < 0 then
-				mapX = tempx
+		if mX == "right" then
+			if x < 0 then
+				tempx = mapX + (scrollSpeed * dt * modx)
+				if mapX < 0 then
+					mapX = tempx
+				end
 			end
-		end
-		if x > 0 then 
-			tempx = mapX - (scrollSpeed * dt * modx)
-			if 0 < (mapWidth + mapX - lg.getWidth()) then
-				mapX = tempx
-			end			
+		elseif mX == "left" then
+			if x > 0 then 
+				tempx = mapX - (scrollSpeed * dt * modx)
+				if 0 < (mapWidth + mapX - lg.getWidth()) then
+					mapX = tempx
+				end			
+			end
 		end
 	end
 
@@ -73,43 +76,47 @@ function mouseMoveMap(dt, x, y)
 			mody = 1
 		end
 
-		if y < 0 then 
-			tempy = mapY + (scrollSpeed * dt * mody)
-			if mapY < 0 then
-				mapY = tempy
+		if mY == "down" then
+			if y < 0 then 
+				tempy = mapY + (scrollSpeed * dt * mody)
+				if mapY < 0 then
+					mapY = tempy
+				end
 			end
+		elseif mY == "up" then
+			if y > 0 then 
+				tempy = mapY - (scrollSpeed * dt * mody)
+				if 0 < (mapHeight + mapY - lg.getHeight()) then
+					mapY = tempy
+				end
+			end 
 		end
-		if y > 0 then 
-			tempy = mapY - (scrollSpeed * dt * mody)
-			if 0 < (mapHeight + mapY - lg.getHeight()) then
-				mapY = tempy
-			end
-		end 
 	end
 end
 
-function moveMap(dt)
+function transitionMap(x, y)
+	mapX = -(x - (lg.getWidth() / 2))
+	mapY = -(y - (lg.getHeight() / 2))
+end
+
+function moveMap(dt, mX, mY)
 	scrollSpeed = getSpeed()
 
-	if lk.isDown("up") then
+	if mY == "up" then
 		if mapY < 0 then
 			mapY = mapY + (dt * scrollSpeed)
 		end
-	end
-
-	if lk.isDown("right") then
-		if 0 < (mapWidth + mapX - lg.getWidth()) then
-			mapX = mapX - (dt * scrollSpeed)
-		end
-	end
-
-	if lk.isDown("down") then
+	elseif mY == "down" then
 		if 0 < (mapHeight + mapY - lg.getHeight()) then
 			mapY = mapY - (dt * scrollSpeed)
 		end
 	end
 
-	if lk.isDown("left") then
+	if mX == "right" then
+		if 0 < (mapWidth + mapX - lg.getWidth()) then
+			mapX = mapX - (dt * scrollSpeed)
+		end
+	elseif mX == "left" then
 		if mapX < 0 then
 			mapX = mapX + (dt * scrollSpeed)
 		end
@@ -117,34 +124,25 @@ function moveMap(dt)
 end
 
 function transition(direction, x, y, map)
-	if direction == "u" then
-		transitionCharacter(findSpawn(x, y, direction))
-		loadMap('/maps/' .. map)
-	elseif direction == "d" then
-		transitionCharacter(findSpawn(x, y, direction))
-		loadMap('/maps/' .. map)
-	elseif direction == "l" then
-		transitionCharacter(findSpawn(x, y, direction))
-		loadMap('/maps/' .. map)
-	elseif direction == "r" then
-		transitionCharacter(findSpawn(x, y, direction))
-		loadMap('/maps/' .. map)
-	end
+	tx, ty = findSpawn(x, y, direction)
+	transitionCharacter(tx, ty)
+	loadMap('/maps/' .. map)
+	transitionMap(tx, ty)
 end
 
 function findSpawn(x, y, direction)
 
 	if direction == "u" then
 		x = x - 32
-		y = (lg.getHeight() - y) - 32
+		y = (mapHeight - y) - 32
 	elseif direction == "d" then
 		x = x - 32
-		y = (lg.getHeight() - y) - 32		
+		y = (mapHeight - y) - 32		
 	elseif direction == "l" then
-		x = (lg.getWidth() - x) - 32
+		x = (mapWidth - x) - 32
 		y =  y - 32
 	elseif direction == "r" then
-		x = (lg.getWidth() - x) -- 32
+		x = (mapWidth - x) -- 32
 		y =  y - 32
 	end
 
@@ -211,7 +209,6 @@ function checkTile(x, y)
 				teleport = quadType[i][1]
 
 				if teleport == "U" then
-					print(quadType[i][4])
 					transition('u', x, y, quadType[i][4])
 					return
 				elseif teleport == "D" then
