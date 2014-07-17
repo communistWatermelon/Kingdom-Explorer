@@ -62,7 +62,7 @@ function love.resize(w, h)
 	resizeOverlay(w, h)
 end
 
-function love.draw()	
+function love.draw()
 	drawMap(currentMap)
 	drawOverlay()
 end
