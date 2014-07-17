@@ -20,7 +20,7 @@ function love.load()
 	diffX = 0
 	diffY = 0
 	maps = {'coredump', 'chez-peter', 'map1', 'map2'}
-	loadMap('/maps/' .. maps[4] .. '.lua')
+	loadMap('/maps/' .. maps[1] .. '.lua')
 	loadCharacter()
 	loadOverlay()
 end
@@ -42,7 +42,7 @@ function love.update(dt)
 	changeY = currentLocationY - oldLocationY
 	
 	if (math.abs(changeX) > 0 or math.abs(changeY) > 0) then
-		moveMap(changeX, changeY)
+		moveMap(dt)
 	end
 	--print(newX/32)
 end
@@ -69,17 +69,9 @@ function love.resize(w, h)
 	scaleH = h / 576
 
 	resizeOverlay(w, h)
-	resizeMap()
 end
 
-function love.draw()
-	--lg.push()
-	--lg.scale(scaleW, scaleH)
-	
+function love.draw()	
 	drawMap(currentMap)
-	drawCharacter()
-
-	--lg.pop()
-
-	--drawOverlay()
+	drawOverlay()
 end

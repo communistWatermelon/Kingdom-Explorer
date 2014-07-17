@@ -1,17 +1,16 @@
 local tileW, tileH, tileset, quads, tileTable, mapWidth, mapHeight, displayH, displayW, mapX, mapY
 local quadType = {}
+local scrollSpeed
 
 require('character')
 
 function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
-	mapX = 1
-	mapY = 1
+	mapX = 0
+	mapY = 0
+	scrollSpeed = 100
 	tileW = tileWidth
 	tileH = tileHeight
 	tileset = lg.newImage(tilesetPath)
-
-	displayW = lg.getWidth() / tileW
-	displayH = lg.getHeight() / tileH
 
 	local tilesetW, tilesetH = tileset:getWidth(), tileset:getHeight()
 
@@ -40,69 +39,87 @@ function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
 	mapWidth = (x - 1) * tileW
 	mapHeight = (y - 1) * tileH
 
-	--print(mapWidth .. " " .. mapHeight)
 end
 
-function updateTiles()
-	--[[for columnIndex, column in ipairs(tileTable) do
-		for rowIndex, char in ipairs(column) do 
-			if columnIndex < (displayW+1) and rowIndex < (displayH+1) then
-				mapX, mapY = (columnIndex - 1) * tileW, (rowIndex - 1) * tileH
-				lg.draw(tileset, quads[char], x+math.floor(mapX) , y+math.floor(mapY() )
-			end
-		end
-	end]]
+function moveMap(dt)
+	scrollSpeed = getSpeed()
 
-	for x=0, displayW-1 do
-		for y=0, displayH-1 do
-			--tilesetBatch:add(tileQuads[map[x+math.floor(mapX)][y+math.floor(mapY)]],x*tileSize, y*tileSize)
-			lg.draw(tileset, quads[' '], x, y)
+	if lk.isDown("up") then
+		if mapY < 0 then
+			mapY = mapY + (dt * scrollSpeed)
 		end
 	end
-end
 
-function moveMap(dx, dy)
-	oldMapX = mapX
-	oldMapY = mapY
-
-	mapX = math.max(math.min(mapX + dx, mapWidth - displayW), 1)
-	mapY = math.max(math.min(mapY + dy, mapHeight - displayH), 1)
-
-	if math.floor(mapX) ~= math.floor(oldMapX) or math.floor(mapY) ~= math.floor(oldMapY) then
-		updateTiles()
+	if lk.isDown("right") then
+		if 0 < (mapWidth + mapX - lg.getWidth()) then
+			mapX = mapX - (dt * scrollSpeed)
+		end
 	end
-	-- only update if we actually moved
-end
 
-function resizeMap()
-	--body
-	displayW = lg.getWidth() / tileW
-	displayH = lg.getHeight() / tileH
-	print(displayW .. " " .. displayH)
+	if lk.isDown("down") then
+		if 0 < (mapHeight + mapY - lg.getHeight()) then
+			mapY = mapY - (dt * scrollSpeed)
+		end
+	end
+
+	if lk.isDown("left") then
+		if mapX < 0 then
+			mapX = mapX + (dt * scrollSpeed)
+		end
+	end
 end
 
 function transition(direction, x, y, map)
-	--print(x .. " " .. y)
 	if direction == "u" then
-		transitionCharacter(findSpawn(x, y))
+		transitionCharacter(findSpawn(x, y, direction))
 		loadMap('/maps/' .. map)
 	elseif direction == "d" then
-		transitionCharacter(findSpawn(x, y))
+		transitionCharacter(findSpawn(x, y, direction))
 		loadMap('/maps/' .. map)
 	elseif direction == "l" then
-		transitionCharacter(findSpawn(x, y))
+		transitionCharacter(findSpawn(x, y, direction))
 		loadMap('/maps/' .. map)
 	elseif direction == "r" then
-		transitionCharacter(findSpawn(x, y))
+		transitionCharacter(findSpawn(x, y, direction))
 		loadMap('/maps/' .. map)
 	end
 end
 
-function findSpawn(x, y)
-	x = (lg.getWidth() - x) - 32
-	y =  (lg.getHeight() - y) - 32
+function findSpawn(x, y, direction)
+
+	if direction == "u" then
+		x = x - 32
+		y = (lg.getHeight() - y) - 32
+	elseif direction == "d" then
+		x = x - 32
+		y = (lg.getHeight() - y) - 32		
+	elseif direction == "l" then
+		x = (lg.getWidth() - x) - 32
+		y =  y - 32
+	elseif direction == "r" then
+		x = (lg.getWidth() - x) -- 32
+		y =  y - 32
+	end
+
 	local fx, fy = math.floor(x / tileW), math.floor(y / tileH)
 	local cx, cy = math.ceil(x / tileW), math.ceil(y / tileH)
+
+	if cx <= 0 then
+		cx = cx + 1
+	end
+
+	if fx <= 0 then
+		fx = fx + 1
+	end
+
+	if cy <= 0 then
+		cy = cy + 1
+	end	
+
+	if fy <= 0 then
+		fy = fy + 1
+	end	
+
 
 	corners = { 
 		tileTable[fx][fy],
@@ -119,15 +136,6 @@ function findSpawn(x, y)
 				spawn = quadType[i][1]
 			end
 		end
-	end
-	print("return to: " .. cx .. " and " .. cy)
-
-	if cx == 0 then
-		cx = cx + 1
-	end
-
-	if cy == 0 then
-		cy = cy + 1
 	end
 
 	return cx*tileW, cy*tileH
@@ -186,12 +194,17 @@ function loadMap(path)
 end
 
 function drawMap()
+	love.graphics.push()
+	love.graphics.translate(mapX, mapY)
+
 	for columnIndex, column in ipairs(tileTable) do
 		for rowIndex, char in ipairs(column) do 
-			if columnIndex < (displayW+1) and rowIndex < (displayH+1) then
-				mapX, mapY = (columnIndex - 1) * tileW, (rowIndex - 1) * tileH
-				lg.draw(tileset, quads[char], mapX , mapY )
-			end
+			local mapW, mapH = (columnIndex - 1) * tileW, (rowIndex - 1) * tileH
+			lg.draw(tileset, quads[char], mapW , mapH )
 		end
 	end
+
+	drawCharacter()
+
+	love.graphics.pop()
 end
