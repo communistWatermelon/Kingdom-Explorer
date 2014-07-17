@@ -55,6 +55,8 @@ function mouseMoveCharacter(dt, x, y)
 			end
 		end 
 	end
+
+	mouseMoveMap(dt, x, y)
 end
 
 function getLocation()
@@ -126,6 +128,8 @@ function moveCharacter(dt, x, y)
 				hero.y = tempy
 		end	
 	end
+
+	moveMap(dt)
 end
 
 function equipItem(item)

@@ -38,7 +38,54 @@ function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
 	end
 	mapWidth = (x - 1) * tileW
 	mapHeight = (y - 1) * tileH
+end
 
+function mouseMoveMap(dt, x, y)
+	scrollSpeed = getSpeed()
+	local tempx = mapX
+	local tempy = mapY
+
+	if (math.abs(x) > 5) then
+		if math.abs(x) < 50 then
+			modx = 0.3
+		else
+			modx = 1
+		end
+
+		if x < 0 then
+			tempx = mapX + (scrollSpeed * dt * modx)
+			if mapX < 0 then
+				mapX = tempx
+			end
+		end
+		if x > 0 then 
+			tempx = mapX - (scrollSpeed * dt * modx)
+			if 0 < (mapWidth + mapX - lg.getWidth()) then
+				mapX = tempx
+			end			
+		end
+	end
+
+	if(math.abs(y) > 5) then
+		if math.abs(y) < 50 then
+			mody = 0.3
+		else
+			mody = 1
+		end
+
+		if y < 0 then 
+			tempy = mapY + (scrollSpeed * dt * mody)
+			if mapY < 0 then
+				mapY = tempy
+			end
+		end
+		if y > 0 then 
+			tempy = mapY - (scrollSpeed * dt * mody)
+			if 0 < (mapHeight + mapY - lg.getHeight()) then
+				mapY = tempy
+			end
+		end 
+	end
 end
 
 function moveMap(dt)

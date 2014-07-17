@@ -20,7 +20,7 @@ function love.load()
 	diffX = 0
 	diffY = 0
 	maps = {'coredump', 'chez-peter', 'map1', 'map2'}
-	loadMap('/maps/' .. maps[1] .. '.lua')
+	loadMap('/maps/' .. maps[4] .. '.lua')
 	loadCharacter()
 	loadOverlay()
 end
@@ -34,17 +34,8 @@ function love.update(dt)
 		equipItem("sword")
 	end
 
-	oldLocationX, oldLocationY = getLocation()
-	moveCharacter(dt, diffX, diffY)
 	diffX, diffY = updateOverlay(dt)
-	currentLocationX, currentLocationY = getLocation()
-	changeX = currentLocationX - oldLocationX
-	changeY = currentLocationY - oldLocationY
-	
-	if (math.abs(changeX) > 0 or math.abs(changeY) > 0) then
-		moveMap(dt)
-	end
-	--print(newX/32)
+	moveCharacter(dt, diffX, diffY)
 end
 
 function love.mousepressed(x, y, button)
