@@ -180,15 +180,10 @@ end
 
 function drawCharacter(characters)
 	-- draw character
-	--lg.rectangle("fill", hero.x, hero.y, 32, 32)
-	--lg.push()
-	--lg.rotate(facing)
-	--lg.translate(hero.sprite:getWidth()/2, hero.sprite:getWidth()/2)
 	lg.draw(hero.sprite, hero.x, hero.y, facing, 1, 1, hero.sprite:getWidth()/2, hero.sprite:getWidth()/2)
 	-- draw equipped item
 	if hero.equipped ~= nil then
 		-- later change the x and y to like, a hand
 		drawItem(hero.equipped, hero.x, hero.y, facing)
 	end
-	--lg.pop()
 end

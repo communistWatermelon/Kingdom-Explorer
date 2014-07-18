@@ -133,17 +133,17 @@ end
 function findSpawn(x, y, direction)
 
 	if direction == "u" then
-		x = x - 32
-		y = (mapHeight - y) - 32
+		x = x - 48
+		y = (mapHeight - y) - 48
 	elseif direction == "d" then
-		x = x - 32
-		y = (mapHeight - y) - 32		
+		x = x - 48
+		y = (mapHeight - y) - 48		
 	elseif direction == "l" then
-		x = (mapWidth - x) - 32
-		y =  y - 32
+		x = (mapWidth - x) - 48
+		y =  y - 48
 	elseif direction == "r" then
 		x = (mapWidth - x) -- 32
-		y =  y - 32
+		y =  y - 48
 	end
 
 	local fx, fy = math.floor(x / tileW), math.floor(y / tileH)
@@ -183,14 +183,12 @@ function findSpawn(x, y, direction)
 		end
 	end
 
-	return cx*tileW, cy*tileH
+	return (cx*tileW)+16, (cy*tileH)+16
 end
 
 function checkTile(x, y)
 	x = x + 16
 	y = y + 16
---	local fx, fy = math.floor(x / tileW), math.floor(y / tileH)
---	local cx, cy = math.ceil(x / tileW), math.ceil(y / tileH)
 	local fx, fy = math.floor(x / tileW), math.floor(y / tileH)
 	local cx, cy = math.ceil(x / tileW), math.ceil(y / tileH)
 
