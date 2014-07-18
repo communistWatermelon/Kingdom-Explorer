@@ -4,6 +4,7 @@ local facing = 0
 
 function loadCharacter()
 	hero = { x = 144, y = 144, speed = 100, health = 100, inventory = inv, equipped = nil, sprite=lg.newImage("assets/hero.png")}
+	loadLv1Sword()
 	addToInventory("sword")
 end
 
@@ -124,7 +125,7 @@ function moveCharacter(dt, x, y)
 
 	if lm.isDown("l") then
 		mouseMoveCharacter(dt, x, y)
-		--useItem(equipped, hero.x, hero.y)
+		useItem(equipped, hero.x, hero.y)
 		return
 	end
 
@@ -168,6 +169,7 @@ function moveCharacter(dt, x, y)
 	end
 
 	moveMap(dt, moveX, moveY)
+	useItem(dt)
 end
 
 function equipItem(item)

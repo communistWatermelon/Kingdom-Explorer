@@ -9,6 +9,7 @@ require('map')
 require('character')
 require('item')
 require('hud')
+require("AnAL")
 
 lk = love.keyboard
 lw = love.window
@@ -23,6 +24,10 @@ function love.load()
 	loadMap('/maps/' .. maps[4] .. '.lua')
 	loadCharacter()
 	loadOverlay()
+	local img  = love.graphics.newImage("assets/explode.png")
+   	anim = newAnimation(img, 96, 96, 0.1, 0)
+   	anim:setMode("once")
+   	anim:stop()
 end
 
 function love.update(dt)
@@ -36,11 +41,13 @@ function love.update(dt)
 
 	diffX, diffY = updateOverlay(dt)
 	moveCharacter(dt, diffX, diffY)
+	anim:update(dt)   
 end
 
 function love.mousepressed(x, y, button)
 	if button == "l" then
 		controllerPressed(x, y)	
+		anim:play()
 	end
 
 	if button == "r" then
@@ -52,6 +59,7 @@ end
 function love.mousereleased(x, y, button)
 	if button == "l" then 
 		controllerReleased() 
+		anim:stop()
 	end
 end
 
@@ -68,4 +76,5 @@ function love.draw()
 	drawMap(currentMap)
 	drawOverlay()
 	lg.pop()
+	anim:draw(100, 100)
 end
