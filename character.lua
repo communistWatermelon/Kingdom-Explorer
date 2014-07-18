@@ -1,8 +1,9 @@
 local hero
 local inv = {}
+local facing = 0
 
 function loadCharacter()
-	hero = { x = 144, y = 144, speed = 100, health = 100, inventory = inv, equipped = nil }
+	hero = { x = 144, y = 144, speed = 100, health = 100, inventory = inv, equipped = nil, sprite=lg.newImage("assets/hero.png")}
 	addToInventory("sword")
 end
 
@@ -16,6 +17,7 @@ function mouseMoveCharacter(dt, x, y)
 	local tempy = hero.y
 	local moveX  = ""
 	local moveY = ""
+	local tempFace = 0
 
 	if (math.abs(x) > 5) then
 		if math.abs(x) < 50 then
@@ -29,6 +31,8 @@ function mouseMoveCharacter(dt, x, y)
 			if checkTile(tempx, tempy) then
 				hero.x = tempx
 				moveX = "left"
+				facing = math.pi/2
+				tempFace = math.pi/4
 			end
 		end
 		if x < 0 then 
@@ -36,6 +40,8 @@ function mouseMoveCharacter(dt, x, y)
 			if checkTile(tempx, tempy) then
 				hero.x = tempx
 				moveX = "right"
+				facing = -math.pi/2
+				tempFace = -math.pi/4
 			end
 		end
 	end
@@ -51,6 +57,8 @@ function mouseMoveCharacter(dt, x, y)
 			if checkTile(tempx, tempy) then
 				hero.y = tempy
 				moveY = "up"
+				facing = math.pi
+				tempFace = -tempFace
 			end
 		end
 		if y < 0 then 
@@ -58,8 +66,13 @@ function mouseMoveCharacter(dt, x, y)
 			if checkTile(tempx, tempy) then
 				hero.y = tempy
 				moveY = "down"
+				facing = 0
 			end
 		end 
+	end
+
+	if moveX ~= "" and moveY ~= "" then
+		facing = facing + tempFace
 	end
 	
 	mouseMoveMap(dt, x, y, moveX, moveY)
@@ -107,9 +120,11 @@ function moveCharacter(dt, x, y)
 	local tempy = hero.y
 	local moveX = ""
 	local moveY = ""
+	local tempFace = 0
 
 	if lm.isDown("l") then
 		mouseMoveCharacter(dt, x, y)
+		--useItem(equipped, hero.x, hero.y)
 		return
 	end
 
@@ -118,12 +133,16 @@ function moveCharacter(dt, x, y)
 		if checkTile(tempx, tempy) then
 			hero.x = tempx
 			moveX = "left"
+			facing = -math.pi/2
+			tempFace = -math.pi/4
 		end
 	elseif lk.isDown("right") then
 		tempx = hero.x + (hero.speed * dt)
 		if checkTile(tempx, tempy) then
 			hero.x = tempx
 			moveX = "right"
+			facing = math.pi/2
+			tempFace = math.pi/4
 		end
 	end
 	
@@ -132,14 +151,22 @@ function moveCharacter(dt, x, y)
 		if checkTile(tempx, tempy) then
 			hero.y = tempy
 			moveY = "up"
+			facing = 0
 		end	
 	elseif lk.isDown("down") then
 		tempy = hero.y + (hero.speed * dt)
 		if checkTile(tempx, tempy) then
 			hero.y = tempy
 			moveY = "down"
+			facing = math.pi
+			tempFace = -tempFace
 		end	
 	end
+
+	if moveX ~= "" and moveY ~= "" then
+		facing = facing + tempFace
+	end
+
 	moveMap(dt, moveX, moveY)
 end
 
@@ -153,10 +180,15 @@ end
 
 function drawCharacter(characters)
 	-- draw character
-	lg.rectangle("fill", hero.x, hero.y, 32, 32)
+	--lg.rectangle("fill", hero.x, hero.y, 32, 32)
+	--lg.push()
+	--lg.rotate(facing)
+	--lg.translate(hero.sprite:getWidth()/2, hero.sprite:getWidth()/2)
+	lg.draw(hero.sprite, hero.x, hero.y, facing, 1, 1, hero.sprite:getWidth()/2, hero.sprite:getWidth()/2)
 	-- draw equipped item
 	if hero.equipped ~= nil then
 		-- later change the x and y to like, a hand
-		drawItem(hero.equipped, hero.x, hero.y)
+		drawItem(hero.equipped, hero.x, hero.y, facing)
 	end
+	--lg.pop()
 end

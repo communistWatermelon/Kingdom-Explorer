@@ -26,5 +26,6 @@ end
 
 function drawItem(item, x, y)
 	-- change this to the actual item
+	-- check which way the player is facing
 	lg.rectangle("fill", x, y, 5, 60)
 end

@@ -187,8 +187,10 @@ function findSpawn(x, y, direction)
 end
 
 function checkTile(x, y)
-	x = x + 32
-	y = y + 32
+	x = x + 16
+	y = y + 16
+--	local fx, fy = math.floor(x / tileW), math.floor(y / tileH)
+--	local cx, cy = math.ceil(x / tileW), math.ceil(y / tileH)
 	local fx, fy = math.floor(x / tileW), math.floor(y / tileH)
 	local cx, cy = math.ceil(x / tileW), math.ceil(y / tileH)
 
@@ -238,8 +240,8 @@ function loadMap(path)
 end
 
 function drawMap()
-	love.graphics.push()
-	love.graphics.translate(mapX, mapY)
+	lg.push()
+	lg.translate(mapX, mapY)
 
 	for columnIndex, column in ipairs(tileTable) do
 		for rowIndex, char in ipairs(column) do 
@@ -250,5 +252,5 @@ function drawMap()
 
 	drawCharacter()
 
-	love.graphics.pop()
+	lg.pop()
 end

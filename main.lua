@@ -63,6 +63,9 @@ function love.resize(w, h)
 end
 
 function love.draw()
+	lg.push()
+	lg.translate(16, 16)
 	drawMap(currentMap)
 	drawOverlay()
+	lg.pop()
 end
