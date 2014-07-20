@@ -80,7 +80,6 @@ function mouseMoveCharacter(dt, x, y)
 end
 
 function getLocation()
-	-- body
 	return hero.x, hero.y
 end
 

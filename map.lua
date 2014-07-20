@@ -1,4 +1,4 @@
-local tileW, tileH, tileset, quads, tileTable, mapWidth, mapHeight, displayH, displayW, mapX, mapY
+local tileW, tileH, tileset, quads, tileTable, mapWidth, mapHeight, mapX, mapY
 local quadType = {}
 local scrollSpeed
 
@@ -101,6 +101,13 @@ end
 
 function moveMap(dt, mX, mY)
 	scrollSpeed = getSpeed()
+	local tempX, tempY = getLocation()
+
+	if tempY < (mapHeight / 2) - (mapHeight / 8)  or tempY > (mapHeight - (mapHeight / 2) + (mapHeight / 8)) then
+		scrollSpeed = scrollSpeed - 30
+	elseif tempX < (mapWidth / 2) - (mapWidth / 8)  or tempX > (mapWidth - (mapWidth / 2) + (mapWidth / 8)) then
+		scrollSpeed = scrollSpeed - 30
+	end
 
 	if mY == "up" then
 		if mapY < 0 then
@@ -249,6 +256,5 @@ function drawMap()
 	end
 
 	drawCharacter()
-
 	lg.pop()
 end

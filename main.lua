@@ -20,15 +20,21 @@ lf = love.filesystem
 function love.load()
 	diffX = 0
 	diffY = 0
+	dragging = { active = false, diffX = 0, diffY = 0 }
+	
 	maps = {'coredump', 'chez-peter', 'map1', 'map2'}
 	loadMap('/maps/' .. maps[4] .. '.lua')
+	
 	loadCharacter()
 	loadOverlay()
+	loadAnimation()
+end
+
+function loadAnimation()
 	local img  = love.graphics.newImage("assets/explode.png")
    	anim = newAnimation(img, 96, 96, 0.1, 0)
    	anim:setMode("once")
    	anim:stop()
-   	dragging = { active = false, diffX = 0, diffY = 0 }
 end
 
 function love.touchpressed(id, x, y, pressure)
@@ -53,18 +59,19 @@ function love.touchreleased(id, x, y, pressure)
 		anim:reset()
 		endSwipe(tempx, tempy)
 	end
-	
 end
 
-function love.update(dt)
-	if lk.isDown("i") then
+function love.keypressed(key)
+	if key == "i" then
 		drawInventory()
 	end
 
-	if lk.isDown("e") then
+	if key == "e" then
 		equipItem("sword")
 	end
+end
 
+function love.update(dt)
 	diffX, diffY = updateOverlay(dt)
 	moveCharacter(dt, diffX, diffY)
 	anim:update(dt)   
@@ -98,7 +105,7 @@ function endSwipe(x, y)
 	dragging.diffX = x - dragging.diffX
 	dragging.diffY = y - dragging.diffY
 	local swipe = swipeDirection()
-	
+
 	if swipe == "down" then
 		-- show inventory screen
 		drawInventory()
