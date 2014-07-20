@@ -21,7 +21,7 @@ function mouseMoveCharacter(dt, x, y)
 	local tempFace = 0
 
 	if (math.abs(x) > 5) then
-		if math.abs(x) < 50 then
+		if math.abs(x) < 30 then
 			modx = 0.3
 		else
 			modx = 1
@@ -48,7 +48,7 @@ function mouseMoveCharacter(dt, x, y)
 	end
 
 	if(math.abs(y) > 5) then
-		if math.abs(y) < 50 then
+		if math.abs(y) < 30 then
 			mody = 0.3
 		else
 			mody = 1
@@ -182,7 +182,7 @@ end
 
 function drawCharacter(characters)
 	-- draw character
-	lg.draw(hero.sprite, hero.x, hero.y, facing, 1, 1, hero.sprite:getWidth()/2, hero.sprite:getWidth()/2)
+	lg.draw(hero.sprite, hero.x, hero.y, facing, 1, 1, hero.sprite:getWidth()/2, hero.sprite:getHeight()/2)
 	-- draw equipped item
 	if hero.equipped ~= nil then
 		-- later change the x and y to like, a hand

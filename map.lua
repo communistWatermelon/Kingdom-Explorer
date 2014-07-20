@@ -46,7 +46,7 @@ function mouseMoveMap(dt, x, y, mX, mY)
 	local tempy = mapY
 
 	if (math.abs(x) > 5) then
-		if math.abs(x) < 50 then
+		if math.abs(x) < 30 then
 			modx = 0.3
 		else
 			modx = 1
@@ -70,7 +70,7 @@ function mouseMoveMap(dt, x, y, mX, mY)
 	end
 
 	if(math.abs(y) > 5) then
-		if math.abs(y) < 50 then
+		if math.abs(y) < 30 then
 			mody = 0.3
 		else
 			mody = 1

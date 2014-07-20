@@ -8,6 +8,8 @@ local cHeight
 local xDivider
 local yDivider
 local maxMovement
+local buffer
+local cScale
 
 function loadHud()
 	heroHealth = getHealth()
@@ -18,16 +20,24 @@ function loadController()
 	cHeight = lg.getHeight()
 	xDivider = 8
 	yDivider = 4
-	maxMovement = 100
+	cScale = 50
+	maxMovement = cScale*1.5
 
-	tileset = lg.newImage("/assets/circle.png")
+	--ctrlr.w
 	ctrlr = {
 		x = cWidth / xDivider, 
 		y = cHeight - (cHeight / yDivider),
-		image = tileset,
-		w = tileset:getWidth(),
-		h = tileset:getHeight(),
+		--image = tileset,
+		w = cScale,
+		h = cScale,
 		dragging = { active = false, diffX = 0, diffY = 0 }
+	}
+
+	bottom = {
+		x = cWidth / xDivider,
+		y = cHeight - (cHeight / yDivider),
+		w = cScale/1.5,
+		h = cScale/1.5
 	}	
 end
 
@@ -53,17 +63,18 @@ function updateController(dt)
 	if ctrlr.dragging.active then
 		local tempX = lm.getX()
 		local tempY = lm.getY()
-		if (math.dist(cWidth / xDivider, (cHeight - (cHeight / yDivider)), tempX, tempY) < maxMovement) then
-			ctrlr.x = lm.getX() - ctrlr.dragging.diffX
-			ctrlr.y = lm.getY() - ctrlr.dragging.diffY
+		if (math.dist((cWidth / xDivider), (cHeight - (cHeight / yDivider)), tempX, tempY) < maxMovement) then
+		--if (math.dist(ctrlr.x, ctrlr.y, tempX, tempY) < maxMovement) then
+			ctrlr.x = tempX -- ctrlr.dragging.diffX
+			ctrlr.y = tempY -- ctrlr.dragging.diffY
 		end
 	end
 	return (ctrlr.x - (cWidth / xDivider)), (ctrlr.y - (cHeight - (cHeight / yDivider)))
 end
 
 function controllerPressed(x, y)
-	if x > ctrlr.x and x < ctrlr.x + ctrlr.w
-	and y > ctrlr.y and y < ctrlr.y + ctrlr.h
+	if x > ctrlr.x-(cScale/2) and x < ctrlr.x + ctrlr.w
+	and y > ctrlr.y-(cScale/2) and y < ctrlr.y + ctrlr.h
 	then
 		ctrlr.dragging.active = true
 		ctrlr.dragging.diffX = x - ctrlr.x
@@ -77,17 +88,11 @@ function controllerReleased()
 	ctrlr.y = cHeight - (cHeight / yDivider)
 end
 
-function love.mousepressed(x, y, button)
-	
-end
-
-function love.mousereleased(x, y, button)
-	
-end
-
 function resizeOverlay(x, y)
-	ctrlr.x = x + (x / xDivider)
-	ctrlr.y = lg.getHeight() - (y / yDivider)
+	ctrlr.x = (x / xDivider)
+	ctrlr.y = y - (y / yDivider)
+	bottom.x = ctrlr.x
+	bottom.y = ctrlr.y
 	cWidth = lg.getWidth()
 	cHeight = lg.getHeight()
 end
@@ -100,5 +105,12 @@ end
 
 function drawController()
 	-- draws the controller for the touch screen devices. should be a small joystick on the left
-	lg.draw(ctrlr.image, ctrlr.x, ctrlr.y)
+	lg.push()
+		lg.setColor(0,0,0,100)
+		lg.circle("fill", bottom.x, bottom.y, bottom.w*2, 100)
+		lg.setColor(255,255,255,100)
+		lg.circle("fill", ctrlr.x, ctrlr.y, ctrlr.w/2, 100)
+	lg.pop()
+	lg.setColor(255,255,255,255)
+	--lg.draw(ctrlr.image, ctrlr.x, ctrlr.y)
 end

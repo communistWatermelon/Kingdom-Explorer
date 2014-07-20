@@ -26,7 +26,7 @@ function love.load()
 	loadOverlay()
 	local img  = love.graphics.newImage("assets/explode.png")
    	anim = newAnimation(img, 96, 96, 0.1, 0)
-   	anim:setMode("once")
+   	anim:setMode("loop")
    	anim:stop()
 end
 
@@ -47,7 +47,7 @@ end
 function love.mousepressed(x, y, button)
 	if button == "l" then
 		controllerPressed(x, y)	
-		anim:play()
+		--anim:play()
 	end
 
 	if button == "r" then
@@ -59,7 +59,6 @@ end
 function love.mousereleased(x, y, button)
 	if button == "l" then 
 		controllerReleased() 
-		anim:stop()
 	end
 end
 
@@ -72,9 +71,12 @@ end
 
 function love.draw()
 	lg.push()
-	lg.translate(16, 16)
-	drawMap(currentMap)
-	drawOverlay()
+		lg.translate(16, 16)
+		lg.push()
+			lg.translate(-16, -16)			
+			drawMap(currentMap)
+		lg.pop()
+		drawOverlay()
 	lg.pop()
 	anim:draw(100, 100)
 end
