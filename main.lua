@@ -30,6 +30,27 @@ function love.load()
    	anim:stop()
 end
 
+function love.touchpressed(id, x, y, pressure)
+	local tempx, tempy
+	tempx = x * lg.getWidth()
+	tempy = y * lg.getHeight()
+	if (x <= .5) then
+		controllerPressed(tempx, tempy)	
+	else
+		anim:play()
+	end
+
+end
+
+function love.touchreleased(id, x, y, pressure)
+	if (x <= .5) then
+		controllerReleased()
+	else
+		anim:reset()
+	end
+	
+end
+
 function love.update(dt)
 	if lk.isDown("i") then
 		drawInventory()
@@ -55,7 +76,6 @@ function love.mousepressed(x, y, button)
 
 	if button == "r" then
 		print(lm.getPosition())
-		print(getLocation())
 	end
 end
 
