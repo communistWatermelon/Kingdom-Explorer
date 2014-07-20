@@ -42,8 +42,15 @@ end
 
 function mouseMoveMap(dt, x, y, mX, mY)
 	scrollSpeed = getSpeed()
+	local tempX, tempY = getLocation()
 	local tempx = mapX
 	local tempy = mapY
+
+	if tempY < (mapHeight / 2) - (mapHeight / 8)  or tempY > (mapHeight - (mapHeight / 2) + (mapHeight / 8)) then
+		scrollSpeed = scrollSpeed - 30
+	elseif tempX < (mapWidth / 2) - (mapWidth / 8)  or tempX > (mapWidth - (mapWidth / 2) + (mapWidth / 8)) then
+		scrollSpeed = scrollSpeed - 30
+	end
 
 	if (math.abs(x) > 5) then
 		if math.abs(x) < 30 then
