@@ -5,7 +5,6 @@ require("items/lv1Sword")
 
 function loadItem(item, x, y)
 	-- loads item
-
 end
 
 function consumeItem(item)
@@ -21,6 +20,10 @@ function useItem(item, target)
 	-- uses the items on the target
 	-- target example: useItem("sword", "mob1") -> attack mob1 with sword
 	-- example two useItem("sword","cuttable_tree") -> cut down the tree
+end
+
+function updateItems(dt)
+	updateLv1Sword(dt)
 end
 
 function drawItems(items)

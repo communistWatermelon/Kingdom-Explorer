@@ -109,10 +109,19 @@ function changeHealth(change)
 	end
 end
 
+function getEquipped()
+	return hero.equipped
+end
+
 function getHealth()
 	--body
 	return hero.health
 end
+
+--[[function useEquippedItem(item)
+	local f = lf.load("items/" .. item)
+	f()
+end]]
 
 function addToInventory(item)
 	--body
@@ -133,7 +142,7 @@ function moveCharacter(dt, x, y)
 
 	if lm.isDown("l") then
 		mouseMoveCharacter(dt, x, y)
-		useItem(equipped, hero.x, hero.y)
+		--useItem(equipped, hero.x, hero.y)
 		return
 	end
 
@@ -177,12 +186,12 @@ function moveCharacter(dt, x, y)
 	end
 
 	moveMap(dt, moveX, moveY)
-	useItem(dt)
 end
 
 function equipItem(item)
 	-- adds item to hero's equipped slot
-	if hero.inventory[1] ~= nil then
+	if hero.inventory[1] ~= nil and
+		hero.equipped ~= item then
 		print("equipping " .. item)
 		hero.equipped = item
 	end

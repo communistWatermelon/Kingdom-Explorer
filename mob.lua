@@ -67,12 +67,11 @@ function moveMob(dt)
 	end
 end
 
-function destroyMob()
-end
-
 function drawMobs(mobs)
 	-- draw character
 	--lg.draw(mob.sprite, mob.x, mob.y, facing, 1, 1, mob.sprite:getWidth()/2, mob.sprite:getHeight()/2)
 	-- draw equipped item
-	lg.rectangle("fill", mob.x, mob.y, mob.width, mob.height)
+	if mob.health > 0 then
+		lg.rectangle("fill", mob.x, mob.y, mob.width, mob.height)
+	end
 end

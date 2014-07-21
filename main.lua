@@ -76,9 +76,10 @@ end
 function love.update(dt)
 	diffX, diffY = updateOverlay(dt)
 	moveCharacter(dt, diffX, diffY)
+	updateItems(dt)
 	moveMob(dt)
 	if (checkCollisions()) then
-		changeHealth(-getMobAttack())
+		changeMobHealth(-getMobAttack())
 	end
 	updateOverlay()
 	--anim:update(dt)   
@@ -90,7 +91,11 @@ function love.mousepressed(x, y, button, isTouch)
 			if (x < lg.getWidth()/2) then
 				controllerPressed(x, y)	
 			else
-				anim:play()
+				--anim:play()
+				tempEquipped = getEquipped()
+				if tempEquipped ~= nil then
+					useItem(tempEquipped)
+				end
 			end
 			startSwipe(x, y) 
 		end
@@ -153,7 +158,7 @@ function love.mousereleased(x, y, button, isTouch)
 	if not isTouch then
 		if button == "l" then 
 			controllerReleased() 
-			anim:reset()
+			
 			endSwipe(x, y)
 		end
 	end
