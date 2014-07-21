@@ -3,6 +3,7 @@ local quadType = {}
 local scrollSpeed
 
 require('character')
+require('mob')
 
 function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
 	mapX = 0
@@ -262,6 +263,7 @@ function drawMap()
 		end
 	end
 
+	drawMobs()
 	drawCharacter()
 	lg.pop()
 end

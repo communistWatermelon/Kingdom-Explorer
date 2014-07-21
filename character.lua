@@ -79,6 +79,10 @@ function mouseMoveCharacter(dt, x, y)
 	mouseMoveMap(dt, x, y, moveX, moveY)
 end
 
+function getSize()
+	return (hero.sprite):getWidth(), (hero.sprite):getHeight()
+end
+
 function getLocation()
 	return hero.x, hero.y
 end
@@ -98,6 +102,11 @@ function changeHealth(change)
 	-- adds 'change' to the hero's health
 	-- if change is negative, hero loses health
 	hero.health = hero.health + change
+	if change < 0 then
+		hero.x = hero.x - 30
+		--hero.y = hero.y - 10
+		-- push the hero back a bit
+	end
 end
 
 function getHealth()

@@ -2,6 +2,7 @@ require('math')
 require('utils')
 require('character')
 
+local heroHealth
 local ctrlr
 local cWidth
 local cHeight
@@ -57,6 +58,10 @@ function updateOverlay(dt)
 end
 
 function updateHud(dt)
+	tempH = getHealth()
+	if tempH >= 0 then
+		heroHealth = getHealth()
+	end
 end
 
 function updateController(dt)
@@ -64,9 +69,8 @@ function updateController(dt)
 		local tempX = lm.getX()
 		local tempY = lm.getY()
 		if (math.dist((cWidth / xDivider), (cHeight - (cHeight / yDivider)), tempX, tempY) < maxMovement) then
-		--if (math.dist(ctrlr.x, ctrlr.y, tempX, tempY) < maxMovement) then
-			ctrlr.x = tempX -- ctrlr.dragging.diffX
-			ctrlr.y = tempY -- ctrlr.dragging.diffY
+			ctrlr.x = tempX
+			ctrlr.y = tempY
 		end
 	end
 	return (ctrlr.x - (cWidth / xDivider)), (ctrlr.y - (cHeight - (cHeight / yDivider)))
@@ -98,7 +102,7 @@ function resizeOverlay(x, y)
 end
 
 function drawHud()
-	-- draws the health bar, money, and what ever else
+	-- draws the health bar, money, and whatever else
 	lg.rectangle("line", 20, 20, 400, 16)
 	lg.rectangle("fill", 25, 25, heroHealth*4, 16)
 end

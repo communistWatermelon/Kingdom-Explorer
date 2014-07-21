@@ -7,6 +7,7 @@ handles controls, health, damage
 --]]
 require('map')
 require('character')
+require('mob')
 require('item')
 require('hud')
 require("AnAL")
@@ -27,7 +28,8 @@ function love.load()
 	
 	loadCharacter()
 	loadOverlay()
-	loadAnimation()
+	loadMob()
+	--loadAnimation()
 end
 
 function loadAnimation()
@@ -44,7 +46,7 @@ function love.touchpressed(id, x, y, pressure)
 	if (x <= .5) then
 		controllerPressed(tempx, tempy)	
 	else
-		anim:play()
+		--anim:play()
 		startSwipe(tempx, tempy) 
 	end
 end
@@ -56,7 +58,7 @@ function love.touchreleased(id, x, y, pressure)
 	if (x <= .5) then
 		controllerReleased()
 	else
-		anim:reset()
+		--anim:reset()
 		endSwipe(tempx, tempy)
 	end
 end
@@ -74,7 +76,12 @@ end
 function love.update(dt)
 	diffX, diffY = updateOverlay(dt)
 	moveCharacter(dt, diffX, diffY)
-	anim:update(dt)   
+	moveMob(dt)
+	if (checkCollisions()) then
+		changeHealth(-getMobAttack())
+	end
+	updateOverlay()
+	--anim:update(dt)   
 end
 
 function love.mousepressed(x, y, button, isTouch)
@@ -168,5 +175,5 @@ function love.draw()
 		lg.pop()
 		drawOverlay()
 	lg.pop()
-	anim:draw(100, 100)
+	--anim:draw(100, 100)
 end
