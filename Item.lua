@@ -15,8 +15,8 @@ function consumeItem(item)
 		-- else remove 1 from stack
 end
 
-function useItem(item, target)
-	useLv1Sword(target)
+function useItem(item, x, y)
+	useLv1Sword(x, y)
 	-- uses the items on the target
 	-- target example: useItem("sword", "mob1") -> attack mob1 with sword
 	-- example two useItem("sword","cuttable_tree") -> cut down the tree

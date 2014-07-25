@@ -29,7 +29,6 @@ function love.load()
 	loadCharacter()
 	loadOverlay()
 	loadMob()
-	--loadAnimation()
 end
 
 function loadAnimation()
@@ -46,7 +45,6 @@ function love.touchpressed(id, x, y, pressure)
 	if (x <= .5) then
 		controllerPressed(tempx, tempy)	
 	else
-		--anim:play()
 		startSwipe(tempx, tempy) 
 	end
 end
@@ -58,7 +56,6 @@ function love.touchreleased(id, x, y, pressure)
 	if (x <= .5) then
 		controllerReleased()
 	else
-		--anim:reset()
 		endSwipe(tempx, tempy)
 	end
 end
@@ -82,7 +79,6 @@ function love.update(dt)
 		changeMobHealth(-getMobAttack())
 	end
 	updateOverlay()
-	--anim:update(dt)   
 end
 
 function love.mousepressed(x, y, button, isTouch)
@@ -91,10 +87,9 @@ function love.mousepressed(x, y, button, isTouch)
 			if (x < lg.getWidth()/2) then
 				controllerPressed(x, y)	
 			else
-				--anim:play()
 				tempEquipped = getEquipped()
 				if tempEquipped ~= nil then
-					useItem(tempEquipped)
+					useItem(tempEquipped, getLocation())
 				end
 			end
 			startSwipe(x, y) 
@@ -180,5 +175,4 @@ function love.draw()
 		lg.pop()
 		drawOverlay()
 	lg.pop()
-	--anim:draw(100, 100)
 end
