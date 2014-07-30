@@ -3,8 +3,8 @@
 local img = love.graphics.newImage("items/swordanim.png")
 function loadLv1Sword()
 	sword = { atk = 1, sprite = lg.newImage("items/sword.png"), }
-   	anim = newAnimation(img, 128, 128, 0.03, 8)
-   	anim:addFrame(1024, 0, 128, 128, 0)
+   	anim = newAnimation(img, 128, 128, 0.025, 9)
+   	--anim:addFrame(1024, 0, 128, 128, 0)
    	anim:setMode("once")
    	anim:stop()
 end
