@@ -5,7 +5,12 @@ local facing = 0
 function loadCharacter()
 	hero = { x = 144, y = 144, speed = 100, health = 100, inventory = inv, equipped = nil, sprite=lg.newImage("assets/hero.png")}
 	loadLv1Sword()
-	addToInventory("sword")
+	addToInventory("lv1Sword")
+end
+
+function getFacing()
+	-- getter
+	return facing
 end
 
 function transitionCharacter(x, y)
@@ -80,10 +85,12 @@ function mouseMoveCharacter(dt, x, y)
 end
 
 function getSize()
+	-- getter
 	return (hero.sprite):getWidth(), (hero.sprite):getHeight()
 end
 
 function getLocation()
+	-- getter
 	return hero.x, hero.y
 end
 
@@ -110,6 +117,7 @@ function changeHealth(change)
 end
 
 function getEquipped()
+	-- getter
 	return hero.equipped
 end
 
@@ -200,9 +208,11 @@ end
 function drawCharacter(characters)
 	-- draw character
 	lg.draw(hero.sprite, hero.x, hero.y, facing, 1, 1, hero.sprite:getWidth()/2, hero.sprite:getHeight()/2)
-	-- draw equipped item
+end
+
+function drawEquipped()
 	if hero.equipped ~= nil then
 		-- later change the x and y to like, a hand
-		drawItem(hero.equipped, hero.x, hero.y, facing)
+		drawItem(hero.equipped, lg.getWidth() - 45, 25)
 	end
 end

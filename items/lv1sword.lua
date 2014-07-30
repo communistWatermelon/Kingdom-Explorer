@@ -1,9 +1,10 @@
 
 -- each item should have its own lua file in the items folder
+local img = love.graphics.newImage("items/swordanim.png")
 function loadLv1Sword()
 	sword = { atk = 1, sprite = lg.newImage("items/sword.png"), }
-	local img  = love.graphics.newImage("items/swordanim.png")
-   	anim = newAnimation(img, 128, 128, 0.01, 0)
+   	anim = newAnimation(img, 128, 128, 0.03, 8)
+   	anim:addFrame(1024, 0, 128, 128, 0)
    	anim:setMode("once")
    	anim:stop()
 end
@@ -17,12 +18,15 @@ function useLv1Sword(x, y)
 	anim:reset()
 end
 
+function animateLv1Sword(x, y, facing)
+	anim:draw(x, y, facing, 1, 1, anim:getWidth()/2, anim:getHeight()/2)
+end
+
 function updateLv1Sword(dt)
 	anim:update(dt)
 end
 
 function drawLv1Sword(x, y, facing)
 	-- change this to the actual item
-	lg.draw(sword.sprite, x, y, facing, 1, 1, sword.sprite:getWidth()/2, sword.sprite:getWidth()/2)
-	anim:draw(x, y, facing)
+	lg.draw(sword.sprite, x, y)--, facing, 1, 1, sword.sprite:getWidth()/2, sword.sprite:getWidth()/2)
 end

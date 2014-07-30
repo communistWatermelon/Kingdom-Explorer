@@ -26,13 +26,14 @@ function updateItems(dt)
 	updateLv1Sword(dt)
 end
 
-function drawItems(items)
+function drawItems(items, x, y)
 	-- loop through all items on screen, draw them
+	drawLv1Sword(x, y, facing)
 end
 
-function drawItem(item, x, y, facing)
+function drawItem(item, x, y)
 	-- change this to the actual item
 	-- check which way the player is facing
 	--lg.rectangle("fill", x, y, 5, 60 )
-	drawLv1Sword(x, y, facing)
+	drawLv1Sword(x, y, getFacing)
 end

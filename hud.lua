@@ -105,6 +105,7 @@ function drawHud()
 	-- draws the health bar, money, and whatever else
 	lg.rectangle("line", 20, 20, 400, 16)
 	lg.rectangle("fill", 25, 25, heroHealth*4, 16)
+	lg.rectangle("line", lg.getWidth() - 52, 25, 32, 32)
 end
 
 function drawController()
@@ -116,5 +117,4 @@ function drawController()
 		lg.circle("fill", ctrlr.x, ctrlr.y, ctrlr.w/2, 100)
 	lg.pop()
 	lg.setColor(255,255,255,255)
-	--lg.draw(ctrlr.image, ctrlr.x, ctrlr.y)
 end

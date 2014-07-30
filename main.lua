@@ -17,6 +17,8 @@ lw = love.window
 lg = love.graphics
 lm = love.mouse
 lf = love.filesystem
+mapX = 0
+mapY = 0
 
 function love.load()
 	diffX = 0
@@ -168,11 +170,17 @@ end
 
 function love.draw()
 	lg.push()
-		lg.translate(16, 16)
-		lg.push()
-			lg.translate(-16, -16)			
-			drawMap(currentMap)
-		lg.pop()
-		drawOverlay()
+		lg.translate(mapX, mapY)		
+		drawMap(currentMap)
+		drawMobs()
+		drawCharacter()
+		if (getEquipped() ~= nil) then
+			local tempx, tempy = getLocation()
+			animateLv1Sword(tempx, tempy, getFacing())
+		else 
+			drawCharacter()
+		end
 	lg.pop()
+	drawOverlay()
+	drawEquipped()
 end

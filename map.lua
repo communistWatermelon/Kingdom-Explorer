@@ -1,4 +1,4 @@
-local tileW, tileH, tileset, quads, tileTable, mapWidth, mapHeight, mapX, mapY
+local tileW, tileH, tileset, quads, tileTable, mapWidth, mapHeight
 local quadType = {}
 local scrollSpeed
 
@@ -253,17 +253,10 @@ function loadMap(path)
 end
 
 function drawMap()
-	lg.push()
-	lg.translate(mapX, mapY)
-
 	for columnIndex, column in ipairs(tileTable) do
 		for rowIndex, char in ipairs(column) do 
 			local mapW, mapH = (columnIndex - 1) * tileW, (rowIndex - 1) * tileH
 			lg.draw(tileset, quads[char], mapW , mapH )
 		end
 	end
-
-	drawMobs()
-	drawCharacter()
-	lg.pop()
 end
