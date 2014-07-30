@@ -68,14 +68,14 @@ function love.keypressed(key)
 	end
 
 	if key == "e" then
-		equipItem("sword")
+		equipItem("Lv1Sword")
 	end
 end
 
 function love.update(dt)
 	diffX, diffY = updateOverlay(dt)
 	moveCharacter(dt, diffX, diffY)
-	updateItems(dt)
+	updateItem(dt)
 	moveMob(dt)
 	if (checkCollisions()) then
 		changeMobHealth(-getMobAttack())
@@ -176,7 +176,7 @@ function love.draw()
 		drawCharacter()
 		if (getEquipped() ~= nil) then
 			local tempx, tempy = getLocation()
-			animateLv1Sword(tempx, tempy, getFacing())
+			animateEquipped(tempx, tempy)
 		else 
 			drawCharacter()
 		end

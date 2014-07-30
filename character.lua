@@ -5,7 +5,7 @@ local facing = 0
 function loadCharacter()
 	hero = { x = 144, y = 144, speed = 100, health = 100, inventory = inv, equipped = nil, sprite=lg.newImage("assets/hero.png")}
 	loadLv1Sword()
-	addToInventory("lv1Sword")
+	addToInventory("Lv1Sword")
 end
 
 function getFacing()
@@ -125,11 +125,6 @@ function getHealth()
 	--body
 	return hero.health
 end
-
---[[function useEquippedItem(item)
-	local f = lf.load("items/" .. item)
-	f()
-end]]
 
 function addToInventory(item)
 	--body

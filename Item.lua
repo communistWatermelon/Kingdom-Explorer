@@ -4,36 +4,35 @@ require("items/lv1Sword")
 -- ex. loadItem(sword, x, y) -> loadSword(x, y)
 
 function loadItem(item, x, y)
-	-- loads item
-end
-
-function consumeItem(item)
-	--check if consumable
-		-- if consumable, add effects
-		-- if only 1 of item
-			--remove
-		-- else remove 1 from stack
+	local fun = "load" .. item
+	_G[fun](x, y)
 end
 
 function useItem(item, x, y)
-	useLv1Sword(x, y)
-	-- uses the items on the target
-	-- target example: useItem("sword", "mob1") -> attack mob1 with sword
-	-- example two useItem("sword","cuttable_tree") -> cut down the tree
+	local fun="use" .. item
+	_G[fun](x, y)
 end
 
-function updateItems(dt)
-	updateLv1Sword(dt)
+function updateItem(dt)
+	tempEquipped = getEquipped()
+	if tempEquipped ~= nil then
+		local fun = "update" ..  getEquipped() 
+		_G[fun](dt)
+	end
+end
+
+function animateEquipped(x, y)
+	local fun = "animate" ..  getEquipped() 
+	_G[fun](x, y)
 end
 
 function drawItems(items, x, y)
-	-- loop through all items on screen, draw them
-	drawLv1Sword(x, y, facing)
+	for item in items do
+		drawItem(item, x, y)
+	end
 end
 
 function drawItem(item, x, y)
-	-- change this to the actual item
-	-- check which way the player is facing
-	--lg.rectangle("fill", x, y, 5, 60 )
-	drawLv1Sword(x, y, getFacing)
+	local fun="draw" .. item
+	_G[fun](x, y)
 end
