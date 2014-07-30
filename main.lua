@@ -89,12 +89,8 @@ function love.mousepressed(x, y, button, isTouch)
 			if (x < lg.getWidth()/2) then
 				controllerPressed(x, y)	
 			else
-				tempEquipped = getEquipped()
-				if tempEquipped ~= nil then
-					useItem(tempEquipped, getLocation())
-				end
+				startSwipe(x, y) 
 			end
-			startSwipe(x, y) 
 		end
 
 		if button == "r" then
@@ -122,8 +118,15 @@ function endSwipe(x, y)
 		 -- show map screen
 	elseif swipe == "left" then
 		--switch to item to the left
+		equipItem("Lv1Sword")
 	elseif swipe == "right" then
 		--switch to item to the right
+		equipItem("Lv1Sword")
+	else
+		tempEquipped = getEquipped()
+		if tempEquipped ~= nil then
+			useItem(tempEquipped, getLocation())
+		end
 	end
 end
 
@@ -155,7 +158,6 @@ function love.mousereleased(x, y, button, isTouch)
 	if not isTouch then
 		if button == "l" then 
 			controllerReleased() 
-			
 			endSwipe(x, y)
 		end
 	end
