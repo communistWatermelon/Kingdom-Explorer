@@ -171,18 +171,20 @@ function love.resize(w, h)
 end
 
 function love.draw()
+	local tempx, tempy = getLocation()
+	
 	lg.push()
 		lg.translate(mapX, mapY)		
 		drawMap(currentMap)
 		drawMobs()
 		drawCharacter()
 		if (getEquipped() ~= nil) then
-			local tempx, tempy = getLocation()
 			animateEquipped(tempx, tempy)
 		else 
 			drawCharacter()
 		end
 	lg.pop()
+	
 	drawOverlay()
 	drawEquipped()
 end

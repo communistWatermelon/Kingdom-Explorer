@@ -3,7 +3,11 @@ local inv = {}
 local facing = 0
 
 function loadCharacter()
-	hero = { x = 144, y = 144, speed = 100, health = 100, inventory = inv, equipped = nil, sprite=lg.newImage("assets/hero.png")}
+	local img = love.graphics.newImage("assets/heroWalk.png")
+   	local wAnim = newAnimation(img, 64, 128, 0.1, 3)
+   	wAnim:setMode("loop")
+   	wAnim:stop()
+	hero = { x = 144, y = 144, speed = 100, health = 100, inventory = inv, equipped = nil, sprite=lg.newImage("assets/hero.png"), walk = wAnim}
 	loadLv1Sword()
 	addToInventory("Lv1Sword")
 end
@@ -80,7 +84,7 @@ function mouseMoveCharacter(dt, x, y)
 	if moveX ~= "" and moveY ~= "" then
 		facing = facing + tempFace
 	end
-	
+
 	mouseMoveMap(dt, x, y, moveX, moveY)
 end
 
@@ -143,6 +147,8 @@ function moveCharacter(dt, x, y)
 	local moveY = ""
 	local tempFace = 0
 
+	updateWalk(dt)
+
 	if lm.isDown("l") then
 		mouseMoveCharacter(dt, x, y)
 		--useItem(equipped, hero.x, hero.y)
@@ -188,7 +194,22 @@ function moveCharacter(dt, x, y)
 		facing = facing + tempFace
 	end
 
+	if moveX ~= "" or moveY ~= "" then
+		hero.walk:play()
+	else
+		hero.walk:seek(3)
+		hero.walk:stop()
+	end
+
 	moveMap(dt, moveX, moveY)
+end
+
+function drawWalk(x, y)
+	hero.walk:draw(x, y, facing, 1, 1, hero.walk:getWidth()/2, hero.walk:getHeight()/4)
+end
+
+function updateWalk(dt)
+	hero.walk:update(dt)
 end
 
 function equipItem(item)
@@ -203,6 +224,8 @@ end
 function drawCharacter(characters)
 	-- draw character
 	lg.draw(hero.sprite, hero.x, hero.y, facing, 1, 1, hero.sprite:getWidth()/2, hero.sprite:getHeight()/2)
+	--if ()
+		drawWalk(hero.x, hero.y)
 end
 
 function drawEquipped()

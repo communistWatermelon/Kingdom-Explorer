@@ -24,3 +24,5 @@ end
 function drawLv1Sword(x, y)
 	lg.draw(sword.sprite, x, y)
 end
+
+
