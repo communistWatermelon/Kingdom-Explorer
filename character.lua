@@ -85,6 +85,13 @@ function mouseMoveCharacter(dt, x, y)
 		facing = facing + tempFace
 	end
 
+	if moveX ~= "" or moveY ~= "" then
+		hero.walk:play()
+	else
+		hero.walk:seek(3)
+		hero.walk:stop()
+	end
+
 	mouseMoveMap(dt, x, y, moveX, moveY)
 end
 
