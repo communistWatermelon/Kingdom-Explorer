@@ -212,10 +212,12 @@ function moveCharacter(dt, x, y)
 end
 
 function drawWalk(x, y)
+	-- draw
 	hero.walk:draw(x, y, facing, 1, 1, hero.walk:getWidth()/2, hero.walk:getHeight()/4)
 end
 
 function updateWalk(dt)
+	-- update
 	hero.walk:update(dt)
 end
 

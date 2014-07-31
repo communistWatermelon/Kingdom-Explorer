@@ -33,6 +33,10 @@ function changeMobHealth(change)
 	-- adds 'change' to the mob's health
 	-- if change is negative, mob loses health
 	mob.health = mob.health + change
+
+	if change < 0 then
+		mob.x = mob.x - 30
+	end
 end
 
 function getMobHealth()

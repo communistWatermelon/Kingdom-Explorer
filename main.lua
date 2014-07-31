@@ -78,7 +78,7 @@ function love.update(dt)
 	updateItem(dt)
 	moveMob(dt)
 	if (checkCollisions()) then
-		changeMobHealth(-getMobAttack())
+		changeHealth(-getMobAttack())
 	end
 	updateOverlay()
 end
