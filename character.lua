@@ -3,7 +3,7 @@ local inv = {}
 local facing = 0
 
 function loadCharacter()
-	local img = love.graphics.newImage("assets/heroWalk.png")
+	local img = love.graphics.newImage("assets/herowalk.png")
    	local wAnim = newAnimation(img, 64, 128, 0.1, 3)
    	wAnim:setMode("loop")
    	wAnim:stop()

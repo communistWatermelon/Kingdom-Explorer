@@ -3,7 +3,7 @@ require("character")
 local mob
 
 function loadMob()
-	mob = { x = 200, y = 300, atk = 5, speed = 50, health = 100, startx = 200, starty = 300, moving = "left", maxMove = 50, width = 30, height = 30}
+	mob = { x = 200, y = 300, atk = 5, speed = 50, health = 100, startx = 200, starty = 300, moving = "left", maxMove = 50, width = 30, height = 30, dead = false}
 end
 
 function getMobLocation()
@@ -37,6 +37,10 @@ function changeMobHealth(change)
 	if change < 0 then
 		mob.x = mob.x - 30
 	end
+
+	if mob.health <= 0 then
+		mob.dead = true
+	end
 end
 
 function getMobHealth()
@@ -52,7 +56,7 @@ function checkCollisions(mobs)
 	return mobx < herox + herow and
 		herox < mobx + mobw and
 		moby < heroy + heroh and
-		heroy < moby + mobh
+		heroy < moby + mobh and not mob.dead
 end
 
 function moveMob(dt)
