@@ -9,7 +9,9 @@ function loadCharacter()
    	wAnim:stop()
 	hero = { x = 144, y = 144, speed = 100, health = 100, inventory = inv, equipped = nil, sprite=lg.newImage("assets/hero.png"), walk = wAnim}
 	loadLv1Sword()
+	loadBow()
 	addToInventory("Lv1Sword")
+	addToInventory("Bow")
 end
 
 function getFacing()
@@ -139,12 +141,14 @@ end
 
 function addToInventory(item)
 	--body
-	hero.inventory[1] = item
+	hero.inventory[(#hero.inventory)+1] = item
 end
 
 function drawInventory()
 	--body
-	print(hero.inventory[1])
+	for i=1, #hero.inventory do
+		print(hero.inventory[i])
+	end
 end
 
 function moveCharacter(dt, x, y)

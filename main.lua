@@ -121,7 +121,7 @@ function endSwipe(x, y)
 		equipItem("Lv1Sword")
 	elseif swipe == "right" then
 		--switch to item to the right
-		equipItem("Lv1Sword")
+		equipItem("Bow")
 	else
 		tempEquipped = getEquipped()
 		if tempEquipped ~= nil then

@@ -2,16 +2,16 @@
 -- each item should have its own lua file in the items folder
 function loadLv1Sword()
 	sword = { atk = 50, sprite = lg.newImage("items/sword.png"), }
-	local img = love.graphics.newImage("items/swordanim.png")
-   	anim = newAnimation(img, 128, 128, 0.025, 9)
-   	anim:setMode("once")
-   	anim:stop()
+	local img = love.graphics.newImage("items/swordAnim.png")
+   	swordAnim = newAnimation(img, 128, 128, 0.025, 9)
+   	swordAnim:setMode("once")
+   	swordAnim:stop()
 end
 
 function useLv1Sword(x, y)
 	Lv1SwordCollision(x, y)
-	anim:play()
-	anim:reset()
+	swordAnim:play()
+	swordAnim:reset()
 end
 
 function Lv1SwordCollision(x, y)
@@ -51,11 +51,11 @@ function Lv1SwordCollision(x, y)
 end
 
 function animateLv1Sword(x, y)
-	anim:draw(x, y, getFacing(), 1, 1, anim:getWidth()/2, anim:getHeight()/2)
+	swordAnim:draw(x, y, getFacing(), 1, 1, swordAnim:getWidth()/2, swordAnim:getHeight()/2)
 end
 
 function updateLv1Sword(dt)
-	anim:update(dt)
+	swordAnim:update(dt)
 end
 
 function drawLv1Sword(x, y)
