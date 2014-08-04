@@ -1,6 +1,6 @@
 local tileW, tileH, tileset, quads, tileTable, mapWidth, mapHeight
 local quadType = {}
-local scrollSpeed
+local scrollSpeed = 100
 
 require('character')
 require('mob')
@@ -8,7 +8,6 @@ require('mob')
 function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
 	mapX = 0
 	mapY = 0
-	scrollSpeed = 100
 	tileW = tileWidth
 	tileH = tileHeight
 	tileset = lg.newImage(tilesetPath)
@@ -42,8 +41,9 @@ function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
 end
 
 function mouseMoveMap(dt, x, y, mX, mY)
-	scrollSpeed = getSpeed()
-	local tempX, tempY = getLocation()
+	scrollSpeed = getSpeed(hero)
+	local tempLoc = getLocation(hero)
+	local tempX, tempY = tempLoc.x, tempLoc.y
 	local tempx = mapX
 	local tempy = mapY
 
@@ -127,12 +127,12 @@ function shiftMap(x, y)
 end
 
 function moveMap(dt, mX, mY)
-	scrollSpeed = getSpeed()
-	local tempX, tempY = getLocation()
+	scrollSpeed = getSpeed(hero)
+	local loc = getLocation(hero)
 
-	if tempY < (mapHeight / 2) - (mapHeight / 8)  or tempY > (mapHeight - (mapHeight / 2) + (mapHeight / 8)) then
+	if loc.x < (mapHeight / 2) - (mapHeight / 8)  or loc.y > (mapHeight - (mapHeight / 2) + (mapHeight / 8)) then
 		scrollSpeed = scrollSpeed - 30
-	elseif tempX < (mapWidth / 2) - (mapWidth / 8)  or tempX > (mapWidth - (mapWidth / 2) + (mapWidth / 8)) then
+	elseif loc.x < (mapWidth / 2) - (mapWidth / 8)  or loc.y > (mapWidth - (mapWidth / 2) + (mapWidth / 8)) then
 		scrollSpeed = scrollSpeed - 30
 	end
 
@@ -159,7 +159,7 @@ end
 
 function transition(direction, x, y, map)
 	tx, ty = findSpawn(x, y, direction)
-	transitionCharacter(tx, ty)
+	setLocation(hero, tx, ty)
 	loadMap('/maps/' .. map)
 	transitionMap(tx, ty)
 end
@@ -220,9 +220,10 @@ function findSpawn(x, y, direction)
 	return (cx*tileW)+16, (cy*tileH)+16
 end
 
-function checkTile(x, y)
+function checkTile(x, y, projectile)
 	x = x + 16
 	y = y + 16
+
 	local fx, fy = math.floor(x / tileW), math.floor(y / tileH)
 	local cx, cy = math.ceil(x / tileW), math.ceil(y / tileH)
 
@@ -242,23 +243,26 @@ function checkTile(x, y)
 				result = quadType[i][4]
 				teleport = quadType[i][1]
 
-				if teleport == "U" then
-					transition('u', x, y, quadType[i][4])
-					return
-				elseif teleport == "D" then
-					transition('d', x, y, quadType[i][4])
-					return
-				elseif teleport == "R" then	
-					transition('r', x, y, quadType[i][4])
-					return
-				elseif teleport == "L" then
-					transition('l', x, y, quadType[i][4])
-					return
-				end
+				if not projectile then
+					if teleport == "U" then
+						transition('u', x, y, quadType[i][4])
+						return
+					elseif teleport == "D" then
+						transition('d', x, y, quadType[i][4])
+						return
+					elseif teleport == "R" then	
+						transition('r', x, y, quadType[i][4])
+						return
+					elseif teleport == "L" then
+						transition('l', x, y, quadType[i][4])
+						return
+					end
 
+				end
 				if (not result) then
 					return result
 				end
+
 			end
 		end
 	end

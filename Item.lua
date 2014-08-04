@@ -14,16 +14,16 @@ function useItem(item, x, y)
 	_G[fun](x, y)
 end
 
-function updateItem(dt)
-	tempEquipped = getEquipped()
+function updateEquippedItem(dt)
+	tempEquipped = getEquipped(hero)
 	if tempEquipped ~= nil then
-		local fun = "update" ..  getEquipped() 
+		local fun = "update" ..  getEquipped(hero) 
 		_G[fun](dt)
 	end
 end
 
 function animateEquipped(x, y)
-	local fun = "animate" ..  getEquipped() 
+	local fun = "animate" ..  getEquipped(hero) 
 	_G[fun](x, y)
 end
 

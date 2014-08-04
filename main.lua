@@ -1,16 +1,10 @@
---[[ 
-the main process of the game
-handles controls, health, damage
-	loads loads
- 	map player
- 	loads savegame
---]]
 require('map')
 require('character')
 require('mob')
 require('item')
 require('hud')
 require("AnAL")
+require("functions")
 
 lk = love.keyboard
 lw = love.window
@@ -19,31 +13,24 @@ lm = love.mouse
 lf = love.filesystem
 mapX = 0
 mapY = 0
+local diffX = 0
+local diffY = 0
+local dragging
 
 function love.load()
-	diffX = 0
-	diffY = 0
 	dragging = { active = false, diffX = 0, diffY = 0 }
 	
 	maps = {'coredump', 'chez-peter', 'map1', 'map2'}
 	loadMap('/maps/' .. maps[4] .. '.lua')
 	
 	loadCharacter()
-	loadOverlay()
+	loadOverlay(hero)
 	loadMob()
 end
 
-function loadAnimation()
-	local img  = love.graphics.newImage("assets/explode.png")
-   	anim = newAnimation(img, 96, 96, 0.1, 0)
-   	anim:setMode("once")
-   	anim:stop()
-end
-
 function love.touchpressed(id, x, y, pressure)
-	local tempx, tempy
-	tempx = x * lg.getWidth()
-	tempy = y * lg.getHeight()
+	local tempx, tempy = x * lg.getWidth(),  y * lg.getHeight()
+
 	if (x <= .5) then
 		controllerPressed(tempx, tempy)	
 	else
@@ -52,9 +39,8 @@ function love.touchpressed(id, x, y, pressure)
 end
 
 function love.touchreleased(id, x, y, pressure)
-	local tempx, tempy
-	tempx = x * lg.getWidth()
-	tempy = y * lg.getHeight()
+	local tempx, tempy = x * lg.getWidth(), y * lg.getHeight()
+
 	if (x <= .5) then
 		controllerReleased()
 	else
@@ -62,24 +48,16 @@ function love.touchreleased(id, x, y, pressure)
 	end
 end
 
-function love.keypressed(key)
-	if key == "i" then
-		drawInventory()
-	end
-
-	if key == "e" then
-		equipItem("Lv1Sword")
-	end
-end
-
 function love.update(dt)
 	diffX, diffY = updateOverlay(dt)
 	moveCharacter(dt, diffX, diffY)
-	updateItem(dt)
+	updateEquippedItem(dt)
 	moveMob(dt)
+
 	if (checkCollisions()) then
-		changeHealth(-getMobAttack())
+		changeHealth(hero, (-getAttack(mob)))
 	end
+
 	updateOverlay()
 end
 
@@ -118,14 +96,15 @@ function endSwipe(x, y)
 		 -- show map screen
 	elseif swipe == "left" then
 		--switch to item to the left
-		equipItem("Lv1Sword")
+		equipItem(hero, "Lv1Sword")
 	elseif swipe == "right" then
 		--switch to item to the right
-		equipItem("Bow")
+		equipItem(hero, "Bow")
 	else
-		tempEquipped = getEquipped()
+		tempEquipped = getEquipped(hero)
 		if tempEquipped ~= nil then
-			useItem(tempEquipped, getLocation())
+			local tempLoc = getLocation(hero)
+			useItem(tempEquipped, tempLoc.x, tempLoc.y)
 		end
 	end
 end
@@ -171,15 +150,15 @@ function love.resize(w, h)
 end
 
 function love.draw()
-	local tempx, tempy = getLocation()
+	local tempLoc = getLocation(hero)
 	
 	lg.push()
 		lg.translate(mapX, mapY)		
 		drawMap(currentMap)
 		drawMobs()
 		drawCharacter()
-		if (getEquipped() ~= nil) then
-			animateEquipped(tempx, tempy)
+		if (getEquipped(hero) ~= nil) then
+			animateEquipped(tempLoc.x, tempLoc.y)
 		else 
 			drawCharacter()
 		end

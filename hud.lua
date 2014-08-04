@@ -13,7 +13,7 @@ local buffer
 local cScale
 
 function loadHud()
-	heroHealth = getHealth()
+	heroHealth = getHealth(hero)
 end
 
 function loadController()
@@ -58,9 +58,9 @@ function updateOverlay(dt)
 end
 
 function updateHud(dt)
-	tempH = getHealth()
+	tempH = getHealth(hero)
 	if tempH >= 0 then
-		heroHealth = getHealth()
+		heroHealth = getHealth(hero)
 	end
 end
 

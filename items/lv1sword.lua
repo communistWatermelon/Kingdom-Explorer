@@ -3,20 +3,27 @@
 function loadLv1Sword()
 	sword = { atk = 50, sprite = lg.newImage("items/sword.png"), }
 	local img = love.graphics.newImage("items/swordanim.png")
-   	swordAnim = newAnimation(img, 128, 128, 0.025, 9)
-   	swordAnim:setMode("once")
-   	swordAnim:stop()
+   	local anim = newAnimation(img, 128, 128, 0.025, 9)
+   	anim:setMode("once")
+   	anim:stop()
+
+
+   	sword = { stats = { atk = 50},
+			draw = { sprite = lg.newImage("items/sword.png"), attack = anim },
+			size = { width = 32, height = 32}
+		}
 end
 
 function useLv1Sword(x, y)
 	Lv1SwordCollision(x, y)
-	swordAnim:play()
-	swordAnim:reset()
+	getAnim(sword, "attack"):play()
+	getAnim(sword, "attack"):reset()
 end
 
 function Lv1SwordCollision(x, y)
-	local facing = getFacing()
-	local mobx, moby = getMobLocation()
+	local facing = getFacing(hero)
+	local mobLoc = getLocation(mob)
+	local mobSize = getSize(mob)
 	local swordx, swordy
 	local swordw, swordh
 
@@ -42,24 +49,22 @@ function Lv1SwordCollision(x, y)
 		swordh = 32 
 	end
 
-		if mobx < swordx + swordw and
-		swordx < mobx + mobw and
-		moby < swordy + swordh and
-		swordy < moby + mobh then
-			changeMobHealth(-sword.atk)
+		if mobLoc.x < swordx + swordw and
+		swordx < mobLoc.x + mobSize.width and
+		mobLoc.y < swordy + swordh and
+		swordy < mobLoc.y + mobSize.height then
+			changeHealth(mob, -getAttack(sword))
 	end
 end
 
 function animateLv1Sword(x, y)
-	swordAnim:draw(x, y, getFacing(), 1, 1, swordAnim:getWidth()/2, swordAnim:getHeight()/2)
+	getAnim(sword, "attack"):draw(x, y, getFacing(hero), 1, 1, getAnimWidth(sword, "attack")/2, getAnimHeight(sword, "attack")/2)
 end
 
 function updateLv1Sword(dt)
-	swordAnim:update(dt)
+	getAnim(sword, "attack"):update(dt)
 end
 
 function drawLv1Sword(x, y)
-	lg.draw(sword.sprite, x, y)
+	lg.draw(getAnim(sword, "sprite"), x, y)
 end
-
-
