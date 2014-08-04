@@ -7,21 +7,21 @@ require("libraries/AnAL")
 require("libraries/functions")
 require("libraries/androidFunctions")
 
-local diffX, diffY = 0, 0
+lk = love.keyboard
+lw = love.window
+lg = love.graphics
+lm = love.mouse
+lf = love.filesystem
 
-function setVariables()
-	lk = love.keyboard
-	lw = love.window
-	lg = love.graphics
-	lm = love.mouse
-	lf = love.filesystem
-	mapX, mapY = 0, 0
-	maps = {'coredump', 'chez-peter', 'map1', 'map2'}
-end
+mapX = 0
+mapY = 0
+local diffX = 0
+local diffY = 0
 
 function love.load()
-	setVariables()
+	maps = {'coredump', 'chez-peter', 'map1', 'map2'}
 	loadMap('/maps/' .. maps[4] .. '.lua')
+	
 	loadCharacter()
 	loadOverlay(hero)
 	loadMob()
