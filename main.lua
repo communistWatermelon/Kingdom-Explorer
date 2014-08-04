@@ -1,10 +1,10 @@
-require('map')
-require('character')
-require('mob')
-require('item')
-require('hud')
-require("AnAL")
-require("functions")
+require('core/map')
+require('core/item')
+require('characters/hero')
+require('characters/mob')
+require('ui/hud')
+require("libraries/AnAL")
+require("libraries/functions")
 
 lk = love.keyboard
 lw = love.window

@@ -1,6 +1,4 @@
 require('math')
-require('utils')
-require('character')
 
 local heroHealth
 local ctrlr
@@ -24,11 +22,9 @@ function loadController()
 	cScale = 50
 	maxMovement = cScale*1.5
 
-	--ctrlr.w
 	ctrlr = {
 		x = cWidth / xDivider, 
 		y = cHeight - (cHeight / yDivider),
-		--image = tileset,
 		w = cScale,
 		h = cScale,
 		dragging = { active = false, diffX = 0, diffY = 0 }

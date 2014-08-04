@@ -1,13 +1,15 @@
+local path = "items/bow/"
+
 local arrow = {}
 
 function loadBow()
-	local img = love.graphics.newImage("items/bowanim.png")
+	local img = love.graphics.newImage(path .. "bowanim.png")
    	local anim = newAnimation(img, 128, 128, 0.04, 9)
    	anim:setMode("once")
    	anim:stop()
 	
 	bow = { stats = { atk = 70, speed = 300 },
-			draw = { sprite = lg.newImage("items/bow.png"), projectile = lg.newImage("items/arrow.png"), attack = anim },
+			draw = { sprite = lg.newImage(path .. "bow.png"), projectile = lg.newImage(path .. "arrow.png"), attack = anim },
 			size = { width = 32, height = 5}
 		}
 end

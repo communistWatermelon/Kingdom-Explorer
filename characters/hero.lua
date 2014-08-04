@@ -1,5 +1,6 @@
+local path = "characters/hero/"
 function loadCharacter()
-	local img = love.graphics.newImage("assets/herowalk.png")
+	local img = love.graphics.newImage(path .. "herowalk.png")
    	local wAnim = newAnimation(img, 64, 128, 0.1, 3)
    	wAnim:setMode("loop")
    	wAnim:stop()
@@ -9,7 +10,7 @@ function loadCharacter()
 			stats = { health = 100, speed = 100 }, 
 			inventory = { }, 
 			equipped = nil,
-			draw = { sprite = lg.newImage("assets/hero.png"), walk = wAnim },
+			draw = { sprite = lg.newImage(path .. "hero.png"), walk = wAnim },
 			size = { width = 32, height = 32 },
 			status = { alive = true }
 			}

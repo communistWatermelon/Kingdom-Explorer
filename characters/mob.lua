@@ -1,5 +1,3 @@
-require("character")
-
 function loadMob()
 	mob = { class = "pawn", 
 			location = { x = 200, y = 300, facing = 0 },

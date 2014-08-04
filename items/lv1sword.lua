@@ -1,15 +1,15 @@
-
+local path = "items/lv1sword/"
 -- each item should have its own lua file in the items folder
 function loadLv1Sword()
-	sword = { atk = 50, sprite = lg.newImage("items/sword.png"), }
-	local img = love.graphics.newImage("items/swordanim.png")
+	sword = { atk = 50, sprite = lg.newImage(path .. "sword.png"), }
+	local img = love.graphics.newImage(path .. "swordanim.png")
    	local anim = newAnimation(img, 128, 128, 0.025, 9)
    	anim:setMode("once")
    	anim:stop()
 
 
    	sword = { stats = { atk = 50},
-			draw = { sprite = lg.newImage("items/sword.png"), attack = anim },
+			draw = { sprite = lg.newImage(path .. "sword.png"), attack = anim },
 			size = { width = 32, height = 32}
 		}
 end

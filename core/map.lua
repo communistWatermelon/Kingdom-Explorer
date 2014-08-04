@@ -2,9 +2,6 @@ local tileW, tileH, tileset, quads, tileTable, mapWidth, mapHeight
 local quadType = {}
 local scrollSpeed = 100
 
-require('character')
-require('mob')
-
 function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
 	mapX = 0
 	mapY = 0
