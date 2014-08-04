@@ -124,6 +124,7 @@ function changeHealth(change)
 	hero.health = hero.health + change
 	if change < 0 then
 		hero.x = hero.x - 30
+		shiftMap(-15, 0)
 		--hero.y = hero.y - 10
 		-- push the hero back a bit
 	end

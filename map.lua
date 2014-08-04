@@ -107,6 +107,25 @@ function transitionMap(x, y)
 	mapY = -(y - (lg.getHeight() / 2))
 end
 
+function shiftMap(x, y)
+	local tempx, tempy
+
+	tempx = mapX + x
+	tempy = mapY + y
+
+	if tempx > 0 then
+		mapX = tempx
+	else
+		mapX = 0
+	end
+
+	if tempy > 0 then
+		mapY = tempy
+	else
+		mapY = 0
+	end
+end
+
 function moveMap(dt, mX, mY)
 	scrollSpeed = getSpeed()
 	local tempX, tempY = getLocation()
