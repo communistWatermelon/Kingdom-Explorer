@@ -2,7 +2,7 @@ local arrow = {}
 -- each item should have its own lua file in the items folder
 function loadBow()
 	bow = { atk = 1, speed = 300, sprite = lg.newImage("items/bow.png"), arrow = lg.newImage("items/arrow.png")}
-	local img = love.graphics.newImage("items/bowAnim.png")
+	local img = love.graphics.newImage("items/bowanim.png")
    	bowAnim = newAnimation(img, 128, 128, 0.08, 9)
    	bowAnim:setMode("once")
    	bowAnim:stop()
