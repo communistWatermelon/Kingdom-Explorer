@@ -5,7 +5,6 @@ local quadType = {}
 local scrollSpeed = 100
 
 function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
-	print("NewMap!" .. tileWidth)
 	mapX = 0
 	mapY = 0
 	tileW = tileWidth
@@ -20,7 +19,6 @@ function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
 	quadType = quadInfo
 	for _, info in ipairs(quadInfo) do
 		quads[info[1]] = lg.newQuad(info[2], info[3], tileW,  tileH, tilesetW, tilesetH)
-		print("quads" ..info[2] .. " ".. info[3] .. " ".. tileW .. " "..  tileH .. " "..  tilesetW .. " "..  tilesetH )
 	end
 
 	local width = #(tileString:match("[^\n]+"))
@@ -104,7 +102,6 @@ function mouseMoveMap(dt, x, y, mX, mY)
 end
 
 function transitionMap(x, y)
-	print("transitionMap")
 	mapX = -(x - (lg.getWidth() / 2))
 	mapY = -(y - (lg.getHeight() / 2))
 end
@@ -281,11 +278,7 @@ function drawMap()
 	for columnIndex, column in ipairs(tileTable) do
 		for rowIndex, char in ipairs(column) do 
 			local mapW, mapH = (columnIndex - 1) * tileW, (rowIndex - 1) * tileH
-
-			if( char == ' ' or char == '*' ) then 
-				lg.draw(tileset, quads[char], mapW, mapH )
-			end
-
+			lg.draw(tileset, quads[char], mapW, mapH )
 		end
 	end
 end
