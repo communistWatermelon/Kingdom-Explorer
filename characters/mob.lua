@@ -1,26 +1,26 @@
-local mobTable = {}
+mobTable = {}
 
 function loadMob(class, x, y)
 	if class == "pawn" then
 		mob = { class = "pawn", 
-			location = { x = x, y = y, facing = 0 },
-			stats = { health = 100, atk = 5, speed = 50 }, 
-			draw = { sprite = nil, walk = nil, attack = nil },
-			size = { width = 30, height = 30}, 
-			status = { alive = true },
-			special = { sx = x, sy = y, moving = "left", maxMove = 50 }
-		}
+				location = { x = x, y = y, facing = 0 },
+				stats = { health = 100, atk = 5, speed = 50 }, 
+				draw = { sprite = nil, walk = nil, attack = nil },
+				size = { width = 30, height = 30}, 
+				status = { alive = true },
+				special = { sx = x, sy = y, moving = "left", maxMove = 50 }
+			}
 
 		table.insert(mobTable, mob)
 	elseif class == "nerd" then
 		mob = { class = "pawn", 
-			location = { x = x, y = y, facing = 0 },
-			stats = { health = 300, atk = 200, speed = 350 }, 
-			draw = { sprite = nil, walk = nil, attack = nil },
-			size = { width = 30, height = 30}, 
-			status = { alive = true },
-			special = { sx = x, sy = y, moving = "left", maxMove = 10 }
-		}
+				location = { x = x, y = y, facing = 0 },
+				stats = { health = 300, atk = 200, speed = 350 }, 
+				draw = { sprite = nil, walk = nil, attack = nil },
+				size = { width = 30, height = 30}, 
+				status = { alive = true },
+				special = { sx = x, sy = y, moving = "left", maxMove = 10 }
+			}
 
 		table.insert(mobTable, mob)
 	end
@@ -28,6 +28,7 @@ end
 
 function checkCollisions()
 	local result = false
+	
 	for i=1, #mobTable do
 		herol = getLocation(hero)
 		heros = getSize(hero)
@@ -46,18 +47,20 @@ function checkCollisions()
 end
 
 function moveMob(dt)
-	local move = mob.special.moving
-	if move == "left" then
-		if ((getX(mob) - mob.special.sx) < mob.special.maxMove) then
-			setX(mob, getX(mob) + (dt * getSpeed(mob)))
-		else
-			mob.special.moving = "right"
-		end
-	elseif move == "right" then
-		if ((getX(mob) - mob.special.sx) > -mob.special.maxMove) then
-			setX(mob, getX(mob) - (dt * getSpeed(mob)))
-		else
-			mob.special.moving = "left"
+	for i=1, #mobTable do
+		local move = mobTable[i].special.moving
+		if move == "left" then
+			if ((getX(mobTable[i]) - mobTable[i].special.sx) < mobTable[i].special.maxMove) then
+				setX(mobTable[i], getX(mobTable[i]) + (dt * getSpeed(mobTable[i])))
+			else
+				mobTable[i].special.moving = "right"
+			end
+		elseif move == "right" then
+			if ((getX(mobTable[i]) - mobTable[i].special.sx) > -mobTable[i].special.maxMove) then
+				setX(mobTable[i], getX(mobTable[i]) - (dt * getSpeed(mobTable[i])))
+			else
+				mobTable[i].special.moving = "left"
+			end
 		end
 	end
 end

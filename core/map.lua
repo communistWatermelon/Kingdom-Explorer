@@ -27,7 +27,7 @@ function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo, mobs)
 
 	local x, y = 1, 1
 	for row in tileString:gmatch("[^\n]+") do
-		--assert(#row == width, 'Map is not aligned: width of row ' .. tostring(y) .. ' should be ' .. tostring(width) .. ', but it is ' .. tostring(#row))
+		assert(#row == width, 'Map is not aligned: width of row ' .. tostring(y) .. ' should be ' .. tostring(width) .. ', but it is ' .. tostring(#row))
 		x = 1
 		for tile in row:gmatch(".") do
 			tileTable[x][y] = tile
@@ -40,9 +40,7 @@ function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo, mobs)
 
 	local tempMobX, tempMobY = 100, 100
 	for i=1, #mobs do
-		print(mobs[i][2])
 		for j=1, mobs[i][2] do
-			print("loading")
 			loadMob(mobs[i][1], tempMobX, tempMobY)
 			tempMobX = tempMobX + 100
 			tempMobY = tempMobY + 100

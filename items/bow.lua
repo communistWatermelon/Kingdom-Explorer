@@ -46,34 +46,36 @@ end
 
 function BowCollision(x, y)
 	local facing = getFacing(hero)
-	local mobLoc = getLocation(mob)
 	local mobSize = getSize(mob)
 	local boww, bowh
 
-	if facing == 0 or facing > 3 then
-		boww = getHeight(bow)
-		bowh = getWidth(bow)
-	elseif facing < 0 or ( facing > 0 and facing < 3)  then
-		bowh = getHeight(bow) 
-		boww = getWidth(bow)
-	end
+	for i=1, #mobTable do
+		local mobLoc = getLocation(mobTable[i])
+		if facing == 0 or facing > 3 then
+			boww = getHeight(bow)
+			bowh = getWidth(bow)
+		elseif facing < 0 or ( facing > 0 and facing < 3)  then
+			bowh = getHeight(bow) 
+			boww = getWidth(bow)
+		end
 
- 	for a,b in ipairs(arrow) do
-		if mobLoc.x < b.x + boww and
-			b.x < mobLoc.x + mobSize.width and
-			mobLoc.y < b.y + bowh and
-			b.y < mobLoc.y + mobSize.height then
-				changeHealth(mob, -getAttack(bow))
-				table.remove(arrow, a)
-        end
+	 	for a,b in ipairs(arrow) do
+			if mobLoc.x < b.x + boww and
+				b.x < mobLoc.x + mobSize.width and
+				mobLoc.y < b.y + bowh and
+				b.y < mobLoc.y + mobSize.height then
+					changeHealth(mobTable[i], -getAttack(bow))
+					table.remove(arrow, a)
+	        end
 
-        if b.x > (lg.getWidth()+math.abs(mapX)) or b.y > (lg.getHeight()+math.abs(mapY)) or b.x < math.abs(mapX) or b.y < math.abs(mapY) then
-        	table.remove(arrow, a)
-        end
+	        if b.x > (lg.getWidth()+math.abs(mapX)) or b.y > (lg.getHeight()+math.abs(mapY)) or b.x < math.abs(mapX) or b.y < math.abs(mapY) then
+	        	table.remove(arrow, a)
+	        end
 
-        if not checkTile(b.x, b.y, true) then
-        	table.remove(arrow, a)
-        end
+	        if not checkTile(b.x, b.y, true) then
+	        	table.remove(arrow, a)
+	        end
+	    end
 	end
 end
 
