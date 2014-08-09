@@ -28,13 +28,16 @@ function love.load()
 end
 
 function love.update(dt)
+	local collided = false
+	local collision = 0
 	diffX, diffY = updateOverlay(dt)
 	moveCharacter(dt, diffX, diffY)
 	updateEquippedItem(dt)
 	moveMob(dt)
+	collided, collision = checkCollisions()
 
-	if (checkCollisions()) then
-		changeHealth(hero, (-getAttack(mob)))
+	if (collided) then
+		changeHealth(hero, (-getAttack(mobTable[collision])))
 	end
 
 	updateOverlay()

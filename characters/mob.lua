@@ -15,7 +15,7 @@ function loadMob(class, x, y)
 	elseif class == "nerd" then
 		mob = { class = "pawn", 
 				location = { x = x, y = y, facing = 0 },
-				stats = { health = 300, atk = 200, speed = 350 }, 
+				stats = { health = 300, atk = 50, speed = 350 }, 
 				draw = { sprite = nil, walk = nil, attack = nil },
 				size = { width = 30, height = 30}, 
 				status = { alive = true },
@@ -40,10 +40,14 @@ function checkCollisions()
 					herol.x < mobl.x + mobs.width and
 					mobl.y < herol.y + heros.height and
 					herol.y < mobl.y + mobs.height or result
+			
+			if result then
+				return result, i
+			end
 		end
 	end
 
-	return result
+	return result, 0 
 end
 
 function moveMob(dt)

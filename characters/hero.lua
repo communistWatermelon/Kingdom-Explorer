@@ -1,4 +1,5 @@
 local path = "characters/hero/"
+
 function loadCharacter()
 	local img = love.graphics.newImage(path .. "herowalk.png")
    	local wAnim = newAnimation(img, 64, 128, 0.1, 3)

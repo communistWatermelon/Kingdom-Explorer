@@ -57,6 +57,8 @@ function updateHud(dt)
 	tempH = getHealth(hero)
 	if tempH >= 0 then
 		heroHealth = getHealth(hero)
+	elseif tempH < 0 then
+		heroHealth = 0
 	end
 end
 
