@@ -4,7 +4,26 @@ local tileW, tileH, tileset, quads, tileTable, mapWidth, mapHeight
 local quadType = {}
 local scrollSpeed = 100
 
-function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo, mobs)
+function removeMobs()
+	for k in pairs (mobTable) do
+		mobTable[k] = nil
+	end
+end
+
+function addMobs(mobs)
+	local tempMobX, tempMobY = 100, 100
+	for i=1, #mobs do
+		for j=1, mobs[i][2] do
+			loadMob(mobs[i][1], tempMobX, tempMobY)
+			tempMobX = tempMobX + 100
+			tempMobY = tempMobY + 100
+		end
+	end
+end
+
+function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
+	removeMobs()
+	
 	mapX = 0
 	mapY = 0
 	tileW = tileWidth
@@ -37,15 +56,6 @@ function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo, mobs)
 	end
 	mapWidth = (x - 1) * tileW
 	mapHeight = (y - 1) * tileH
-
-	local tempMobX, tempMobY = 100, 100
-	for i=1, #mobs do
-		for j=1, mobs[i][2] do
-			loadMob(mobs[i][1], tempMobX, tempMobY)
-			tempMobX = tempMobX + 100
-			tempMobY = tempMobY + 100
-		end
-	end
 end
 
 function mouseMoveMap(dt, x, y, mX, mY)

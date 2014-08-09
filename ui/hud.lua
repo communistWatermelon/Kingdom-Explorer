@@ -62,6 +62,13 @@ function updateHud(dt)
 	end
 end
 
+function drawInventory()
+	local inv = getInventory(hero)
+	for i=1, #inv do
+		print(inv[i])
+	end
+end
+
 function updateController(dt)
 	if ctrlr.dragging.active then
 		local tempX = lm.getX()

@@ -41,7 +41,7 @@ function fireArrow(x, y)
 	end
 
 	local dx, dy = getSpeed(bow) * math.cos(facing - (math.pi/2)), getSpeed(bow) * math.sin(facing - (math.pi / 2))
-	table.insert( arrow, { x = (x+modx), y = (y+mody), dx = dx, dy = dy, facing = facing - (math.pi / 2)} )
+	table.insert( projectiles, { x = (x+modx), y = (y+mody), dx = dx, dy = dy, facing = facing - (math.pi / 2)} )
 end
 
 function BowCollision(x, y)
@@ -86,16 +86,9 @@ function animateBow(x, y)
 	end
 end
 
-function updateBow(dt)
-	local tempLoc = getLocation(hero)
-
+function updateBow(dt, x, y)
 	getAnim(bow,"attack"):update(dt)
-	for i, v in ipairs (arrow) do
-		v.x = v.x + v.dx * dt
-		v.y = v.y + v.dy * dt
-	end
-
-	BowCollision(tempLoc.x, tempLoc.y)
+	BowCollision(x, y)
 end
 
 function drawBow(x, y)

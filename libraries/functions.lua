@@ -41,14 +41,6 @@ function changeHealth(param, change, direction)
 	if getClass(param) == "hero" then
 		shiftMap(-15, 0)
 	end
-
-	if param.stats.health <= 0 then
-		param.status.alive = false
-	end
-end
-
-function getAliveStatus(param)
-	return param.status.alive
 end
 
 function getInventory(param)

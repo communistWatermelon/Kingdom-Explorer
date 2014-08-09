@@ -75,3 +75,77 @@ function swipeDirection()
 	
 	return direction
 end
+
+function mouseMove(dt, x, y)
+	local tempLoc = getLocation(hero)
+	local tempx, tempy = tempLoc.x, tempLoc.y
+	local moveX  = ""
+	local moveY = ""
+	local tempFace = 0
+
+	if (math.abs(x) > 5) then
+		if math.abs(x) < 30 then
+			modx = 0.3
+		else
+			modx = 1
+		end
+
+		if x > 0 then
+			tempx = getX(hero) + (getSpeed(hero) * dt * modx)
+			if checkTile(tempx, tempy, false) then
+				setX(hero, tempx)
+				moveX = "left"
+				setFacing(hero, math.pi/2)
+				tempFace = math.pi/4
+			end
+		end
+		if x < 0 then 
+			tempx = getX(hero) - (getSpeed(hero) * dt * modx)
+			if checkTile(tempx, tempy, false) then
+				setX(hero, tempx)
+				moveX = "right"
+				setFacing(hero, -math.pi/2)
+				tempFace = -math.pi/4
+			end
+		end
+	end
+
+	if(math.abs(y) > 5) then
+		if math.abs(y) < 30 then
+			mody = 0.3
+		else
+			mody = 1
+		end
+		if y > 0 then 
+			tempy = getY(hero) + (getSpeed(hero) * dt * mody)
+			if checkTile(tempx, tempy, false) then
+				setY(hero, tempy) 
+				moveY = "up"
+				setFacing(hero, math.pi)
+				tempFace = -tempFace
+			end
+		end
+		if y < 0 then 
+			tempy = getY(hero) - (getSpeed(hero) * dt * mody)
+			if checkTile(tempx, tempy, false) then
+				setY(hero, tempy) 
+				moveY = "down"
+				setFacing(hero, 0)
+			end
+		end
+
+	end
+
+	if moveX ~= "" and moveY ~= "" then
+		addFacing(hero, tempFace)
+	end
+
+	if moveX ~= "" or moveY ~= "" then
+		getAnim(hero, "walk"):play()
+	else
+		getAnim(hero, "walk"):seek(3)
+		getAnim(hero, "walk"):stop()
+	end
+
+	mouseMoveMap(dt, x, y, moveX, moveY)
+end

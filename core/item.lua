@@ -15,10 +15,11 @@ function useItem(item, x, y)
 end
 
 function updateEquippedItem(dt)
-	tempEquipped = getEquipped(hero)
+	local loc = getLocation(hero)
+	local tempEquipped = getEquipped(hero)
 	if tempEquipped ~= nil then
 		local fun = "update" ..  getEquipped(hero) 
-		_G[fun](dt)
+		_G[fun](dt, loc.x, loc.y)
 	end
 end
 

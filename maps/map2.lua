@@ -29,4 +29,5 @@ local quadInfo = {
 }
 
 local mobs = { {"pawn", 3}, {"nerd", 1} } --define mobs by their name, and a number
-newMap(32, 32,'/assets/countryside.png', tileString, quadInfo, mobs)
+newMap(32, 32,'/assets/countryside.png', tileString, quadInfo)
+addMobs(mobs)

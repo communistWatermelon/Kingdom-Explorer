@@ -2,12 +2,17 @@ require('core/map')
 require('core/item')
 require('characters/hero')
 require('characters/mob')
+require('characters/characters')
 require('ui/hud')
 require("libraries/AnAL")
 require("libraries/functions")
 require("libraries/androidFunctions")
 
 local diffX, diffY = 0, 0
+
+projectiles = {}
+mobTable = {}
+mobProjectiles = {}
 
 function setVariables()
 	lk = love.keyboard
@@ -22,25 +27,15 @@ end
 function love.load()
 	setVariables()
 	loadMap('/maps/' .. maps[4] .. '.lua')
-	loadCharacter()
+	loadHero()
 	loadOverlay(hero)
-	loadMob()
 end
 
 function love.update(dt)
-	local collided = false
-	local collision = 0
 	diffX, diffY = updateOverlay(dt)
-	moveCharacter(dt, diffX, diffY)
+	updateCharacters(dt, diffX, diffY)
 	updateEquippedItem(dt)
-	moveMob(dt)
-	collided, collision = checkCollisions()
-
-	if (collided) then
-		changeHealth(hero, (-getAttack(mobTable[collision])))
-	end
-
-	updateOverlay()
+	checkCharacters()
 end
 
 function love.mousepressed(x, y, button, isTouch)
@@ -75,19 +70,11 @@ function love.resize(w, h)
 	resizeOverlay(w, h)
 end
 
-function love.draw()
-	local tempLoc = getLocation(hero)
-	
+function love.draw()	
 	lg.push()
 		lg.translate(mapX, mapY)		
 		drawMap(currentMap)
-		drawMobs()
-		drawCharacter()
-		if (getEquipped(hero) ~= nil) then
-			animateEquipped(tempLoc.x, tempLoc.y)
-		else 
-			drawCharacter()
-		end
+		drawCharacters()
 	lg.pop()
 	
 	drawOverlay()
