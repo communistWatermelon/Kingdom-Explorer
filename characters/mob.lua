@@ -1,24 +1,48 @@
-function loadMob()
-	mob = { class = "pawn", 
-			location = { x = 200, y = 300, facing = 0 },
+local mobTable = {}
+
+function loadMob(class, x, y)
+	if class == "pawn" then
+		mob = { class = "pawn", 
+			location = { x = x, y = y, facing = 0 },
 			stats = { health = 100, atk = 5, speed = 50 }, 
-			draw = { sprire = nil, walk = nil, attack = nil },
+			draw = { sprite = nil, walk = nil, attack = nil },
 			size = { width = 30, height = 30}, 
 			status = { alive = true },
-			special = { sx = 200, sy = 300, moving = "left", maxMove = 50 }
+			special = { sx = x, sy = y, moving = "left", maxMove = 50 }
 		}
+
+		table.insert(mobTable, mob)
+	elseif class == "nerd" then
+		mob = { class = "pawn", 
+			location = { x = x, y = y, facing = 0 },
+			stats = { health = 300, atk = 200, speed = 350 }, 
+			draw = { sprite = nil, walk = nil, attack = nil },
+			size = { width = 30, height = 30}, 
+			status = { alive = true },
+			special = { sx = x, sy = y, moving = "left", maxMove = 10 }
+		}
+
+		table.insert(mobTable, mob)
+	end
 end
 
-function checkCollisions(mobs)
-	herol = getLocation(hero)
-	heros = getSize(hero)
-	mobl = getLocation(mob)
-	mobs = getSize(mob)
+function checkCollisions()
+	local result = false
+	for i=1, #mobTable do
+		herol = getLocation(hero)
+		heros = getSize(hero)
+		mobl = getLocation(mobTable[i])
+		mobs = getSize(mobTable[i])
 
-	return mobl.x < herol.x + heros.width and
-		herol.x < mobl.x + mobs.width and
-		mobl.y < herol.y + heros.height and
-		herol.y < mobl.y + mobs.height and mob.status.alive
+		if (getAliveStatus(mobTable[i])) then
+			result = mobl.x < herol.x + heros.width and
+					herol.x < mobl.x + mobs.width and
+					mobl.y < herol.y + heros.height and
+					herol.y < mobl.y + mobs.height or result
+		end
+	end
+
+	return result
 end
 
 function moveMob(dt)
@@ -38,8 +62,10 @@ function moveMob(dt)
 	end
 end
 
-function drawMobs(mobs)
-	if getHealth(mob) > 0 then
-		lg.rectangle("fill", getX(mob), getY(mob), getWidth(mob), getHeight(mob))
+function drawMobs()
+	for i=1, #mobTable do
+		if getAliveStatus(mobTable[i]) then
+			lg.rectangle("fill", getX(mobTable[i]), getY(mobTable[i]), getWidth(mobTable[i]), getHeight(mobTable[i]))
+		end
 	end
 end

@@ -47,6 +47,10 @@ function changeHealth(param, change, direction)
 	end
 end
 
+function getAliveStatus(param)
+	return param.status.alive
+end
+
 function getInventory(param)
 	--body
 	return param.inventory
