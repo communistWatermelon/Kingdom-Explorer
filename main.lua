@@ -7,12 +7,9 @@ require('ui/hud')
 require("libraries/AnAL")
 require("libraries/functions")
 require("libraries/androidFunctions")
+require("projectiles")
 
 local diffX, diffY = 0, 0
-
-projectiles = {}
-mobTable = {}
-mobProjectiles = {}
 
 function setVariables()
 	lk = love.keyboard
@@ -22,6 +19,10 @@ function setVariables()
 	lf = love.filesystem
 	mapX, mapY = 0, 0
 	maps = {'coredump', 'chez-peter', 'map1', 'map2'}
+	
+	projectiles = {}
+	mobTable = {}
+	mobProjectiles = {}
 end
 
 function love.load()
@@ -35,6 +36,7 @@ function love.update(dt)
 	diffX, diffY = updateOverlay(dt)
 	updateCharacters(dt, diffX, diffY)
 	updateEquippedItem(dt)
+	updateProjectiles(dt)
 	checkCharacters()
 end
 
@@ -70,11 +72,12 @@ function love.resize(w, h)
 	resizeOverlay(w, h)
 end
 
-function love.draw()	
+function love.draw()
 	lg.push()
 		lg.translate(mapX, mapY)		
 		drawMap(currentMap)
 		drawCharacters()
+		drawProjectiles()
 	lg.pop()
 	
 	drawOverlay()

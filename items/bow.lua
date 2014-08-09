@@ -21,74 +21,15 @@ function useBow(x, y)
 end
 
 function fireArrow(x, y)
-	local facing = getFacing(hero)
-
-	local modx = 0
-	local mody = 0
-
-	if facing == 0 then
-		modx = -10
-		mody = 16
-	elseif facing < 0 then
-		modx = 16
-		mody = 10
-	elseif facing > 0 and facing < 3 then
-		modx = -16
-		mody = -10
-	elseif facing > 3 then
-		modx = 10
-		mody = -16
-	end
-
-	local dx, dy = getSpeed(bow) * math.cos(facing - (math.pi/2)), getSpeed(bow) * math.sin(facing - (math.pi / 2))
-	table.insert( projectiles, { x = (x+modx), y = (y+mody), dx = dx, dy = dy, facing = facing - (math.pi / 2)} )
-end
-
-function BowCollision(x, y)
-	local facing = getFacing(hero)
-	local mobSize = getSize(mob)
-	local boww, bowh
-
-	for i=1, #mobTable do
-		local mobLoc = getLocation(mobTable[i])
-		if facing == 0 or facing > 3 then
-			boww = getHeight(bow)
-			bowh = getWidth(bow)
-		elseif facing < 0 or ( facing > 0 and facing < 3)  then
-			bowh = getHeight(bow) 
-			boww = getWidth(bow)
-		end
-
-	 	for a,b in ipairs(arrow) do
-			if mobLoc.x < b.x + boww and
-				b.x < mobLoc.x + mobSize.width and
-				mobLoc.y < b.y + bowh and
-				b.y < mobLoc.y + mobSize.height then
-					changeHealth(mobTable[i], -getAttack(bow))
-					table.remove(arrow, a)
-	        end
-
-	        if b.x > (lg.getWidth()+math.abs(mapX)) or b.y > (lg.getHeight()+math.abs(mapY)) or b.x < math.abs(mapX) or b.y < math.abs(mapY) then
-	        	table.remove(arrow, a)
-	        end
-
-	        if not checkTile(b.x, b.y, true) then
-	        	table.remove(arrow, a)
-	        end
-	    end
-	end
+	fireProjectile(bow, hero, x, y, getFacing(hero), getAttack(bow), getSpeed(bow), getAnimWidth(bow, "projectile"), getAnimHeight(bow, "projectile"), true)
 end
 
 function animateBow(x, y)
 	getAnim(bow, "attack"):draw(x, y, getFacing(hero), 1, 1, getAnimWidth(bow, "attack")/2, getAnimHeight(bow, "attack")/2)
-	for i, v in ipairs (arrow) do
-		lg.draw( getAnim(bow, "projectile"), v.x, v.y, v.facing)
-	end
 end
 
 function updateBow(dt, x, y)
 	getAnim(bow,"attack"):update(dt)
-	BowCollision(x, y)
 end
 
 function drawBow(x, y)

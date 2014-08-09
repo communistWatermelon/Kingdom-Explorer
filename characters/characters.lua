@@ -9,7 +9,7 @@ function checkCharacters()
 
 	collided, collision = checkCollisionsTable(hero, mobTable)
 
-	if (collided) then
+	if collided then
 		changeHealth(hero, (-getAttack(mobTable[collision])))
 	end
 
