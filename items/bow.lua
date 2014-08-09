@@ -15,13 +15,9 @@ function loadBow()
 end
 
 function useBow(x, y)
-	fireArrow(x, y)
+	fireProjectile(bow, hero, x, y, getFacing(hero), getAttack(bow), getSpeed(bow), getAnimWidth(bow, "projectile"), getAnimHeight(bow, "projectile"), true)
 	getAnim(bow, "attack"):play()
 	getAnim(bow, "attack"):reset()
-end
-
-function fireArrow(x, y)
-	fireProjectile(bow, hero, x, y, getFacing(hero), getAttack(bow), getSpeed(bow), getAnimWidth(bow, "projectile"), getAnimHeight(bow, "projectile"), true)
 end
 
 function animateBow(x, y)

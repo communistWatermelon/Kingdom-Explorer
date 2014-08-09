@@ -8,7 +8,7 @@ function loadLv1Sword()
    	anim:stop()
 
 
-   	sword = { stats = { atk = 50},
+   	sword = { stats = { atk = 50 },
 			draw = { sprite = lg.newImage(path .. "sword.png"), attack = anim },
 			size = { width = 32, height = 32}
 		}

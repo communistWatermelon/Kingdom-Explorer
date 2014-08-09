@@ -1,5 +1,6 @@
 require('core/map')
 require('core/item')
+require("core/projectiles")
 require('characters/hero')
 require('characters/mob')
 require('characters/characters')
@@ -7,7 +8,6 @@ require('ui/hud')
 require("libraries/AnAL")
 require("libraries/functions")
 require("libraries/androidFunctions")
-require("projectiles")
 
 local diffX, diffY = 0, 0
 

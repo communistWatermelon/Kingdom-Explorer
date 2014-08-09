@@ -26,7 +26,7 @@ function moveHero(dt, x, y)
 	local moveY = ""
 	local tempFace = 0
 
-	updateWalk(dt)
+	getAnim(hero, "walk"):update(dt)
 
 	if lm.isDown("l") then
 		mouseMove(dt, x, y)
@@ -82,17 +82,9 @@ function moveHero(dt, x, y)
 	moveMap(dt, moveX, moveY)
 end
 
-function drawWalk(x, y)
-	getAnim(hero, "walk"):draw(x, y, getFacing(hero), 1, 1, getAnimWidth(hero, "walk")/2, getAnimHeight(hero, "walk")/4)
-end
-
-function updateWalk(dt)
-	getAnim(hero, "walk"):update(dt)
-end
-
 function drawHero(characters)
 	lg.draw(getAnim(hero, "sprite"), getX(hero), getY(hero), getFacing(hero), 1, 1, getWidth(hero)/2, getHeight(hero)/2)
-	drawWalk(getX(hero), getY(hero))
+	getAnim(hero, "walk"):draw(getX(hero), getY(hero), getFacing(hero), 1, 1, getAnimWidth(hero, "walk")/2, getAnimHeight(hero, "walk")/4)
 end
 
 function drawEquipped()
