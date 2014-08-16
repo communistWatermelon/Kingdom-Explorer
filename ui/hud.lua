@@ -1,7 +1,8 @@
 require('math')
 
+ctrlr = {}
+
 local heroHealth
-local ctrlr
 local cWidth
 local cHeight
 local xDivider
@@ -23,19 +24,10 @@ function loadController()
 	maxMovement = cScale*1.5
 
 	ctrlr = {
-		x = cWidth / xDivider, 
-		y = cHeight - (cHeight / yDivider),
-		w = cScale,
-		h = cScale,
-		dragging = { active = false, diffX = 0, diffY = 0 }
+		location = { x = cWidth / xDivider, y = cHeight - (cHeight / yDivider) },
+		size = { width= cScale, height = cScale },
+		dragging = { active = false, diffX = 0, diffY = 0, oriX = 0, oriY = 0 }
 	}
-
-	bottom = {
-		x = cWidth / xDivider,
-		y = cHeight - (cHeight / yDivider),
-		w = cScale/1.5,
-		h = cScale/1.5
-	}	
 end
 
 function loadOverlay()
@@ -73,35 +65,36 @@ function updateController(dt)
 	if ctrlr.dragging.active then
 		local tempX = lm.getX()
 		local tempY = lm.getY()
-		if (math.dist((cWidth / xDivider), (cHeight - (cHeight / yDivider)), tempX, tempY) < maxMovement) then
-			ctrlr.x = tempX
-			ctrlr.y = tempY
+
+		local tempDist = math.dist(tempX, tempY, ctrlr.dragging.oriX, ctrlr.dragging.oriY)
+
+		if tempDist <= 0 then
+			return 0, 0
+		end
+
+		if (tempDist < maxMovement) then
+			ctrlr.dragging.diffX = tempX
+			ctrlr.dragging.diffY = tempY
+			setX(ctrlr, tempX)
+			setY(ctrlr, tempY)
 		end
 	end
-	return (ctrlr.x - (cWidth / xDivider)), (ctrlr.y - (cHeight - (cHeight / yDivider)))
+
+	return ctrlr.dragging.diffX - ctrlr.dragging.oriX, ctrlr.dragging.diffY - ctrlr.dragging.oriY
 end
 
 function controllerPressed(x, y)
-	if x > ctrlr.x-(cScale/2) and x < ctrlr.x + ctrlr.w
-	and y > ctrlr.y-(cScale/2) and y < ctrlr.y + ctrlr.h
-	then
-		ctrlr.dragging.active = true
-		ctrlr.dragging.diffX = x - ctrlr.x
-		ctrlr.dragging.diffY = y - ctrlr.y
-	end
+	ctrlr.location = { x = x, y = y }
+	ctrlr.dragging = { active = true, diffX = 0, diffY = 0, oriX = x, oriY = y}
 end
 
 function controllerReleased()
-	ctrlr.dragging.active = false
-	ctrlr.x = cWidth / xDivider
-	ctrlr.y = cHeight - (cHeight / yDivider)
+	ctrlr.location = { x = cWidth / xDivider, y = cHeight - (cHeight / yDivider) }
+	ctrlr.dragging = { active = false, diffX = 0, diffY = 0, oriX = 0, oriY = 0}
 end
 
 function resizeOverlay(x, y)
-	ctrlr.x = (x / xDivider)
-	ctrlr.y = y - (y / yDivider)
-	bottom.x = ctrlr.x
-	bottom.y = ctrlr.y
+	ctrlr.location = { x = x / xDivider, y = y - (y / yDivider)}
 	cWidth = lg.getWidth()
 	cHeight = lg.getHeight()
 end
@@ -116,10 +109,8 @@ end
 function drawController()
 	-- draws the controller for the touch screen devices. should be a small joystick on the left
 	lg.push()
-		lg.setColor(0,0,0,100)
-		lg.circle("fill", bottom.x, bottom.y, bottom.w*2, 100)
 		lg.setColor(255,255,255,100)
-		lg.circle("fill", ctrlr.x, ctrlr.y, ctrlr.w/2, 100)
+		lg.circle("fill", getX(ctrlr), getY(ctrlr), (getWidth(ctrlr)/2), 100)
 	lg.pop()
 	lg.setColor(255,255,255,255)
 end

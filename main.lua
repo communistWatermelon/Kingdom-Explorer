@@ -43,7 +43,7 @@ end
 function love.mousepressed(x, y, button, isTouch)
 	if not isTouch then
 		if button == "l" then
-			if (x < lg.getWidth()/2) then
+			if (x < lg.getWidth()/3) then
 				controllerPressed(x, y)	
 			else
 				startSwipe(x, y) 
@@ -58,9 +58,14 @@ end
 
 function love.mousereleased(x, y, button, isTouch)
 	if not isTouch then
-		if button == "l" then 
-			controllerReleased() 
-			endSwipe(x, y)
+		if button == "l" then
+
+			if (x < lg.getWidth()/3) then
+				controllerReleased() 
+			else
+				endSwipe(x, y)
+			end
+			
 		end
 	end
 end

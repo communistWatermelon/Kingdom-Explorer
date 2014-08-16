@@ -3,7 +3,7 @@ local dragging = { active = false, diffX = 0, diffY = 0 }
 function love.touchpressed(id, x, y, pressure)
 	local tempx, tempy = x * lg.getWidth(),  y * lg.getHeight()
 
-	if (x <= .5) then
+	if (x <= .3) then
 		controllerPressed(tempx, tempy)	
 	else
 		startSwipe(tempx, tempy) 
@@ -13,7 +13,7 @@ end
 function love.touchreleased(id, x, y, pressure)
 	local tempx, tempy = x * lg.getWidth(), y * lg.getHeight()
 
-	if (x <= .5) then
+	if (x <= .3) then
 		controllerReleased()
 	else
 		endSwipe(tempx, tempy)

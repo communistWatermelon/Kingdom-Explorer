@@ -22,11 +22,11 @@ end
 
 function Lv1SwordCollision(x, y)
 	local facing = getFacing(hero)
-	local mobSize = getSize(mob)
 	local swordx, swordy
 	local swordw, swordh
 
 	for i=1, #mobTable do
+		local mobSize = getSize(mobTable[i])
 		local mobLoc = getLocation(mobTable[i])
 		if facing == 0 then
 			swordx = x
