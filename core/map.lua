@@ -82,14 +82,14 @@ function mouseMoveMap(dt, x, y, mX, mY)
 			if x < 0 then
 				tempx = mapX + (scrollSpeed * dt * modx)
 				if mapX < 0 then
-					mapX = tempx
+					mapX = math.floor(tempx)
 				end
 			end
 		elseif mX == "left" then
 			if x > 0 then 
 				tempx = mapX - (scrollSpeed * dt * modx)
 				if 0 < (mapWidth + mapX - lg.getWidth()) then
-					mapX = tempx
+					mapX = math.ceil(tempx)
 				end			
 			end
 		end
@@ -106,14 +106,14 @@ function mouseMoveMap(dt, x, y, mX, mY)
 			if y < 0 then 
 				tempy = mapY + (scrollSpeed * dt * mody)
 				if mapY < 0 then
-					mapY = tempy
+					mapY = math.floor(tempy)
 				end
 			end
 		elseif mY == "up" then
 			if y > 0 then 
 				tempy = mapY - (scrollSpeed * dt * mody)
 				if 0 < (mapHeight + mapY - lg.getHeight()) then
-					mapY = tempy
+					mapY = math.ceil(tempy)
 				end
 			end 
 		end
@@ -145,7 +145,7 @@ function shiftMap(x, y)
 end
 
 function moveMap(dt, mX, mY)
-	scrollSpeed = getSpeed(hero)
+	scrollSpeed = getSpeed(hero) - 30
 	local loc = getLocation(hero)
 
 	if loc.x < (mapHeight / 2) - (mapHeight / 8)  or loc.y > (mapHeight - (mapHeight / 2) + (mapHeight / 8)) then
@@ -156,21 +156,21 @@ function moveMap(dt, mX, mY)
 
 	if mY == "up" then
 		if mapY < 0 then
-			mapY = mapY + math.floor(dt * scrollSpeed)
+			mapY = mapY + math.ceil(dt * (scrollSpeed - 0))
 		end
 	elseif mY == "down" then
 		if 0 < (mapHeight + mapY - lg.getHeight()) then
-			mapY = mapY - math.floor(dt * scrollSpeed)
+			mapY = mapY - math.ceil(dt * (scrollSpeed - 0))
 		end
 	end
 
 	if mX == "right" then
 		if 0 < (mapWidth + mapX - lg.getWidth()) then
-			mapX = mapX - math.floor(dt * scrollSpeed)
+			mapX = mapX - math.ceil(dt * (scrollSpeed - 0))
 		end
 	elseif mX == "left" then
 		if mapX < 0 then
-			mapX = mapX + math.floor(dt * scrollSpeed)
+			mapX = mapX + math.ceil(dt * (scrollSpeed - 0))
 		end
 	end
 end
