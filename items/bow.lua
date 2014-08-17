@@ -10,12 +10,13 @@ function loadBow()
 	
 	bow = { stats = { atk = 70, speed = 300 },
 			draw = { sprite = lg.newImage(path .. "bow.png"), projectile = lg.newImage(path .. "arrow.png"), attack = anim },
-			size = { width = 32, height = 5}
+			size = { width = 32, height = 5},
+			target = { mobTable }
 		}
 end
 
 function useBow(x, y)
-	fireProjectile(bow, hero, x, y, getFacing(hero), getAttack(bow), getSpeed(bow), getAnimWidth(bow, "projectile"), getAnimHeight(bow, "projectile"), true)
+	fireProjectile(bow, x, y, getFacing(hero), getAttack(bow), getSpeed(bow), getAnimWidth(bow, "projectile"), getAnimHeight(bow, "projectile"), true)
 	getAnim(bow, "attack"):play()
 	getAnim(bow, "attack"):reset()
 end

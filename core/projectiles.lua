@@ -2,26 +2,23 @@ function projectileCollison()
 	local collided = false
 	local collision = 0
 	local target
+	local hit
 	local deadPro = {}
 
 	for i=1, #projectiles do 
-		if projectiles[i].origin == hero then
-			target = mobTable
-		else
-			target = hero
-		end
+		for j=1, #projectiles[i].target do
+			target = projectiles[i].target[j]
+			collided, collision = checkCollisionsTable(projectiles[i], target)
 
-		collided, collision = checkCollisionsTable(projectiles[i], target)
+			if collided then
+				hit = target[collision]
 
-		if collided then
-			if target ~= hero then
-				target = mobTable[collision]
+				if projectiles[i].oneHit then
+					table.insert(deadPro, i)
+				end
+
+				changeHealth(hit, (-getAttack(projectiles[i])))
 			end
-
-			if projectiles[i].oneHit then
-				table.insert(deadPro, i)
-			end
-			changeHealth(target, (-getAttack(projectiles[i])))
 		end
 	end
 
@@ -48,7 +45,7 @@ function checkProjectileStatus(deadPro)
 	end
 end
 
-function fireProjectile(item, origin, x, y, direction, attack, speed, width, height, oneHit)
+function fireProjectile(item, x, y, direction, attack, speed, width, height, oneHit)
 	local modx, mody = 0, 0
 
 	local dx, dy = speed * math.cos(direction - (math.pi / 2)), speed * math.sin(direction - (math.pi / 2))
@@ -56,7 +53,8 @@ function fireProjectile(item, origin, x, y, direction, attack, speed, width, hei
 								location = { x = x, y = y, facing = direction }, 
 								stats = { atk = attack, speed = speed },
 								size = {width = width, height = height},
-								dx = dx, dy = dy, origin = origin, oneHit = oneHit
+								target = item.target,
+								dx = dx, dy = dy, oneHit = oneHit
 							})
 end
 

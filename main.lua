@@ -22,7 +22,6 @@ function setVariables()
 	
 	projectiles = {}
 	mobTable = {}
-	mobProjectiles = {}
 end
 
 function love.load()
