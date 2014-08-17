@@ -66,16 +66,13 @@ function updateController(dt)
 		local tempX = lm.getX()
 		local tempY = lm.getY()
 
-		local tempDist = math.dist(tempX, tempY, ctrlr.dragging.oriX, ctrlr.dragging.oriY)
-
-		if tempDist <= 0 then
-			return 0, 0
+		if math.abs(tempX - ctrlr.dragging.oriX ) <= maxMovement then
+			ctrlr.dragging.diffX = tempX
+			setX(ctrlr, tempX)
 		end
 
-		if (tempDist < maxMovement) then
-			ctrlr.dragging.diffX = tempX
+		if math.abs(tempY - ctrlr.dragging.oriY ) <= maxMovement then
 			ctrlr.dragging.diffY = tempY
-			setX(ctrlr, tempX)
 			setY(ctrlr, tempY)
 		end
 	end

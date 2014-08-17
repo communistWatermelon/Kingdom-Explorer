@@ -42,10 +42,10 @@ function checkCollision(param, param2)
 	loc2 = getLocation(param2)
 	size2 = getSize(param2)
 
-	return loc2.x < loc1.x + size1.width and
-			loc1.x < loc2.x + size2.width and
-			loc2.y < loc1.y + size1.height and
-			loc1.y < loc2.y + size2.height
+	return loc1.x < loc2.x + size2.width and
+				loc2.x < loc1.x + size1.width and
+				loc1.y < loc2.y + size2.height and
+				loc2.y < loc1.y + size1.height
 end
 
 function checkCollisionsTable(param, table)
@@ -57,10 +57,10 @@ function checkCollisionsTable(param, table)
 		loc2 = getLocation(table[i])
 		size2 = getSize(table[i])
 
-		result = loc2.x < loc1.x + size1.width and
-				loc1.x < loc2.x + size2.width and
-				loc2.y < loc1.y + size1.height and
-				loc1.y < loc2.y + size2.height or result
+		result = loc1.x < loc2.x + size2.width and
+				loc2.x < loc1.x + size1.width and
+				loc1.y < loc2.y + size2.height and
+				loc2.y < loc1.y + size1.height or result
 		
 		if result then
 			return result, i
