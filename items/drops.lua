@@ -45,7 +45,7 @@ function placeDrop(item, x, y)
 					class = item,
 					location = { x = x , y = y},
 					draw = { sprite = lg.newImage(path .. item .. ".png") },
-					size = { width = 32, height = 5},
+					size = { width = 32, height = 32},
 					alive = true,
 					amount = math.floor(tempAmount)
 				})

@@ -33,7 +33,7 @@ function checkCharactersHealth()
 		for j=#deadMob, 1, -1 do
 			local dead = mobTable[deadMob[j]]
 			-- ABSOLUTE VALUE -- 
-			drop(getX(dead), getY(dead), nil, 15, 50, 15) 
+			drop(getX(dead), getY(dead), nil, 25, 5, 30) 
 			table.remove(mobTable, deadMob[j])
 		end
 	end
