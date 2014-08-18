@@ -22,6 +22,7 @@ function setVariables()
 	
 	projectiles = {}
 	mobTable = {}
+	dropsTable = {}
 end
 
 function love.load()
@@ -36,6 +37,7 @@ function love.update(dt)
 	updateCharacters(dt, diffX, diffY)
 	updateEquippedItem(dt)
 	updateProjectiles(dt)
+	updateDrops()
 	checkCharacters()
 end
 
@@ -81,6 +83,7 @@ function love.draw()
 		lg.translate(mapX, mapY)		
 		drawMap(currentMap)
 		drawCharacters()
+		drawDrops()
 		drawProjectiles()
 	lg.pop()
 	

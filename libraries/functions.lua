@@ -13,7 +13,7 @@ end
 
 function changeCash(change)
 	local current = getCash()
-	current = current + change
+	current = current + math.floor(change)
 	if current < 0 then
 		current = 0
 	elseif current >= 999 then
@@ -48,15 +48,24 @@ function getAnimWidth(param, anim)
 end
 
 function changeHealth(param, change, direction)
-	param.stats.health = param.stats.health + change
+	local tempHealth = getHealth(param) + change
 
 	if change < 0 then
 		setX(param, getX(param) - 30)
+
+		if getClass(param) == "hero" then
+			shiftMap(-15, 0)
+		end
+	end
+	
+	if tempHealth < 0 then
+		param.stats.health = 0
+	elseif tempHealth > 100 then 
+		param.stats.health = 100
+	else 
+		param.stats.health = tempHealth
 	end
 
-	if getClass(param) == "hero" then
-		shiftMap(-15, 0)
-	end
 end
 
 function getInventory(param)

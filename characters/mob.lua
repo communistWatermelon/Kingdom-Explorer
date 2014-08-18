@@ -45,8 +45,6 @@ end
 
 function drawMobs()
 	for i=1, #mobTable do
-		--if getAliveStatus(mobTable[i]) then
 			lg.rectangle("fill", getX(mobTable[i]), getY(mobTable[i]), getWidth(mobTable[i]), getHeight(mobTable[i]))
-		--end
 	end
 end
