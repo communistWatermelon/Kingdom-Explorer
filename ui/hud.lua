@@ -101,6 +101,7 @@ function drawHud()
 	lg.rectangle("line", 20, 20, 400, 16)
 	lg.rectangle("fill", 25, 25, heroHealth*4, 16)
 	lg.rectangle("line", lg.getWidth() - 52, 25, 32, 32)
+	lg.print(getCash(), 20, 60, 0, 1.5, 1.5)
 end
 
 function drawController()

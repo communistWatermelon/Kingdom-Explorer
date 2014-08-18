@@ -17,6 +17,7 @@ function useLv1Sword(x, y)
 	attackCollision(sword, x, y, getWidth(sword), getHeight(sword), getFacing(hero))
 	getAnim(sword, "attack"):play()
 	getAnim(sword, "attack"):reset()
+	changeCash(-300)
 end
 
 function animateLv1Sword(x, y)

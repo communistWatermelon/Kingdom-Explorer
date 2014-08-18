@@ -13,6 +13,7 @@ function loadHero()
 			equipped = nil,
 			draw = { sprite = lg.newImage(path .. "hero.png"), walk = wAnim },
 			size = { width = 32, height = 32 },
+			cash = 0
 		}
 	
 	addToInventory(hero, "Lv1Sword")

@@ -7,6 +7,22 @@ function getAttack(param)
 	return param.stats.atk
 end
 
+function getCash()
+	return hero.cash
+end
+
+function changeCash(change)
+	local current = getCash()
+	current = current + change
+	if current < 0 then
+		current = 0
+	elseif current >= 999 then
+		current = 999
+	end
+
+	hero.cash = current
+end
+
 function getSize(param)
 	return param.size
 end
