@@ -9,15 +9,16 @@ function loadLv1Sword()
    	sword = { 	stats = { atk = 50 },
 				draw = { sprite = lg.newImage(path .. "sword.png"), attack = anim },
 				size = { width = 32, height = 32},
-				target = { mobTable }
+				target = { mobTable },
+				destroys = { "grass" }
 			}
 end
 
 function useLv1Sword(x, y)
-	attackCollision(sword, x, y, getWidth(sword), getHeight(sword), getFacing(hero))
+	local width, height, facing = getWidth(sword), getHeight(sword), getFacing(hero)
+	attackCollision(sword, x, y, width, height, facing)
 	getAnim(sword, "attack"):play()
 	getAnim(sword, "attack"):reset()
-	changeCash(-300)
 end
 
 function animateLv1Sword(x, y)

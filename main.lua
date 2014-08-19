@@ -2,6 +2,7 @@ require('core/map')
 require('core/item')
 require("core/projectiles")
 require("core/drops")
+require("core/destructable")
 require('characters/hero')
 require('characters/mob')
 require('characters/characters')
@@ -24,6 +25,7 @@ function setVariables()
 	projectiles = {}
 	mobTable = {}
 	dropsTable = {}
+	destructsTable = {}
 end
 
 function love.load()
@@ -39,6 +41,7 @@ function love.update(dt)
 	updateEquippedItem(dt)
 	updateProjectiles(dt)
 	updateDrops()
+	updateDestructables()
 	checkCharacters()
 end
 
@@ -84,6 +87,7 @@ function love.draw()
 		lg.translate(mapX, mapY)		
 		drawMap(currentMap)
 		drawCharacters()
+		drawDestructables()
 		drawDrops()
 		drawProjectiles()
 	lg.pop()

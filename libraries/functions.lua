@@ -7,6 +7,10 @@ function getAttack(param)
 	return param.stats.atk
 end
 
+function getDestroys(param)
+	return param.destroys
+end
+
 function getCash()
 	return hero.cash
 end

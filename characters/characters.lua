@@ -51,42 +51,70 @@ function checkCollision(param, param2)
 			loc2.y < loc1.y + size1.height
 end
 
+function calculateFacingChange(x, y, width, height, facing)
+	local attackx, attacky, attackw, attackh
+
+	if facing == 0 then
+		attackx = x
+		attacky = y - (width + (getWidth(hero)/2))
+		attackw = width
+		attackh = height 
+	elseif facing < 0 then
+		attackx = x - (width + (getWidth(hero)/2))
+		attacky = y
+		attackw = height
+		attackh = width 
+	elseif facing > 0 and facing < 3 then
+		attackx = x + (width + (getWidth(hero)/2))
+		attacky = y
+		attackw = height
+		attackh = width 
+	elseif facing > 3 then
+		attackx = x
+		attacky = y + (width + (getWidth(hero)/2))
+		attackw = width
+		attackh = height 
+	end
+
+	return attackx, attacky, attackw, attackh
+end
+
 function attackCollision(item, x, y, width, height, facing)
-	local attackx, attacky
-	local attackw, attackh
+
+	local attackx, attacky, attackw, attackh = calculateFacingChange(x, y, width, height, facing)
 
 	for j=1, #item.target do
 		for i=1, #item.target[j] do
 			local tarSize = getSize(item.target[j][i])
 			local tarLoc = getLocation(item.target[j][i])
-			
-			if facing == 0 then
-				attackx = x
-				attacky = y - (width + (getWidth(hero)/2))
-				attackw = width
-				attackh = height 
-			elseif facing < 0 then
-				attackx = x - (width + (getWidth(hero)/2))
-				attacky = y
-				attackw = height
-				attackh = width 
-			elseif facing > 0 and facing < 3 then
-				attackx = x + (width + (getWidth(hero)/2))
-				attacky = y
-				attackw = height
-				attackh = width 
-			elseif facing > 3 then
-				attackx = x
-				attacky = y + (width + (getWidth(hero)/2))
-				attackw = width
-				attackh = height 
-			end
 
 			if tarLoc.x < attackx + attackw and
 				attackx < tarLoc.x + tarSize.width and
 				tarLoc.y < attacky + attackh and
 				attacky < tarLoc.y + tarSize.height then
 					changeHealth(item.target[j][i], -getAttack(item))
+			end
+		end
+	end
+
+	destructablesCollision(item, attackx, attacky, attackw, attackh)
+end
+
+function destructablesCollision(item, x, y, width, height)
+	for i=1, #item.destroys do -- for each item in the destroys table
+		local tempDestroys = item.destroys[i] -- the destructable to target
+		for j=1, #destructsTable do -- go through the destuctables table
+			if getClass(destructsTable[j]) == tempDestroys then -- if it's the right type
+				local temp = destructsTable[j] -- set temp to the one you're targeting
+				local tarSize = getSize(temp) 
+				local tarLoc = getLocation(temp)
+
+				if tarLoc.x < x + width and
+					x < tarLoc.x + tarSize.width and
+					tarLoc.y < y + height and
+					y < tarLoc.y + tarSize.height then
+						temp.alive = false
+				end
 			end
 		end
 	end

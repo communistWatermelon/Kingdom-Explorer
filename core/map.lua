@@ -19,15 +19,13 @@ function addMobs(mobs)
 	end
 end
 
-function addEnvironment(quadType)
+function addDestructables(quadType)
 	local destructs = {}
 	for columnIndex, column in ipairs(tileTable) do
 		for rowIndex, char in ipairs(column) do 
-			--print(quadType[rowIndex][5])
 			local temp = tileTable[columnIndex][rowIndex]
-			if temp[1] == 'c' or temp[1] == 'l' then -- if it's destructable
-				-- create destructable object
-				print(temp[1] .. " " .. temp[2] .. " " .. temp[3])
+			if temp[1] == 'c' or temp[1] == 'l' then
+				placeDestructable(temp[1], temp[2], temp[3])
 			end
 		end
 	end
@@ -70,7 +68,7 @@ function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
 	mapWidth = (x - 1) * tileW
 	mapHeight = (y - 1) * tileH
 
-	addEnvironment(quadInfo)
+	addDestructables(quadInfo)
 end
 
 function mouseMoveMap(dt, x, y, mX, mY)
