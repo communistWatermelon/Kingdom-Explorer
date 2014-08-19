@@ -222,12 +222,21 @@ function checkTile(x, y, projectile)
 	local fx, fy = math.floor(x / tileW), math.floor(y / tileH)
 	local cx, cy = math.ceil(x / tileW), math.ceil(y / tileH)
 
+	local tempC = changeZero(cx, cy, fx, fy)
+
 	corners = { 
-		tileTable[fx][fy][1],
-		tileTable[cx][fy][1],
-		tileTable[cx][cy][1],
-		tileTable[fx][cy][1]
+		tileTable[tempC[3]][tempC[4]][1],
+		tileTable[tempC[1]][tempC[4]][1],
+		tileTable[tempC[1]][tempC[2]][1],
+		tileTable[tempC[3]][tempC[2]][1]
 	}
+
+	--corners = { 
+	--	tileTable[fx][fy][1],
+	--	tileTable[cx][fy][1],
+	--	tileTable[cx][cy][1],
+	--	tileTable[fx][cy][1]
+	--}
 
 	local result = true
 	local teleport = 0

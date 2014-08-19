@@ -17,8 +17,6 @@ function changeZero( ... )
 		if arg[i] <= 0 then
 			arg[i] = 1
 		end
-		
-		print(arg[i])
 	end
 
 	return arg
