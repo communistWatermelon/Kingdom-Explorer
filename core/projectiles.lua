@@ -56,6 +56,8 @@ function fireProjectile(item, x, y, direction, attack, speed, width, height, one
 								target = item.target,
 								dx = dx, dy = dy, oneHit = oneHit
 							})
+	--print(item.target)
+	--print(hero)
 end
 
 function updateProjectiles(dt)

@@ -15,6 +15,8 @@ function loadHero()
 			size = { width = 32, height = 32 },
 			cash = 0
 		}
+
+	table.insert(heroTable, hero)
 	
 	addToInventory(hero, "Lv1Sword")
 	addToInventory(hero, "Bow")

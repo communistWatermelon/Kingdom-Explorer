@@ -22,6 +22,7 @@ function setVariables()
 	mapX, mapY = 0, 0
 	maps = {'coredump', 'chez-peter', 'map1', 'map2'}
 	
+	heroTable = {}
 	projectiles = {}
 	mobTable = {}
 	dropsTable = {}
