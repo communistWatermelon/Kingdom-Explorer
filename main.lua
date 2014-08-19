@@ -1,6 +1,7 @@
 require('core/map')
 require('core/item')
 require("core/projectiles")
+require("core/drops")
 require('characters/hero')
 require('characters/mob')
 require('characters/characters')
@@ -89,4 +90,5 @@ function love.draw()
 	
 	drawOverlay()
 	drawEquipped()
+	love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
 end

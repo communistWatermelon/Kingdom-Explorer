@@ -11,6 +11,19 @@ function getCash()
 	return hero.cash
 end
 
+function changeZero( ... )
+	local arg = { ... }
+	for i=1, #arg do
+		if arg[i] <= 0 then
+			arg[i] = 1
+		end
+		
+		print(arg[i])
+	end
+
+	return arg
+end
+
 function changeCash(change)
 	local current = getCash()
 	current = current + math.floor(change)

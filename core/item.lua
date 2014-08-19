@@ -1,6 +1,5 @@
 require("items/lv1Sword")
 require("items/bow")
-require("items/drops")
 -- these are generic versions of the item functions
 -- pass the item name to the function, and that items function will be called
 -- ex. loadItem(sword, x, y) -> loadSword(x, y)

@@ -8,7 +8,7 @@ local tileString = [[
 #                   * * #
 # *                 l l #
 # l                      
-L$       ^               
+L        ^               
 L       @                
 # *                      
 # l                     #

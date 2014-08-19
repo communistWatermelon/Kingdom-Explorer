@@ -1,5 +1,3 @@
-
-
 local tileW, tileH, tileset, quads, tileTable, mapWidth, mapHeight
 local quadType = {}
 local scrollSpeed = 100
@@ -17,6 +15,20 @@ function addMobs(mobs)
 			loadMob(mobs[i][1], tempMobX, tempMobY)
 			tempMobX = tempMobX + 100
 			tempMobY = tempMobY + 100
+		end
+	end
+end
+
+function addEnvironment(quadType)
+	local destructs = {}
+	for columnIndex, column in ipairs(tileTable) do
+		for rowIndex, char in ipairs(column) do 
+			--print(quadType[rowIndex][5])
+			local temp = tileTable[columnIndex][rowIndex]
+			if temp[1] == 'c' or temp[1] == 'l' then -- if it's destructable
+				-- create destructable object
+				print(temp[1] .. " " .. temp[2] .. " " .. temp[3])
+			end
 		end
 	end
 end
@@ -49,13 +61,16 @@ function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
 		assert(#row == width, 'Map is not aligned: width of row ' .. tostring(y) .. ' should be ' .. tostring(width) .. ', but it is ' .. tostring(#row))
 		x = 1
 		for tile in row:gmatch(".") do
-			tileTable[x][y] = tile
+
+			tileTable[x][y] = { tile, x, y }
 			x = x + 1
 		end
 		y= y + 1
 	end
 	mapWidth = (x - 1) * tileW
 	mapHeight = (y - 1) * tileH
+
+	addEnvironment(quadInfo)
 end
 
 function mouseMoveMap(dt, x, y, mX, mY)
@@ -184,58 +199,20 @@ end
 
 function findSpawn(x, y, direction)
 
-	if direction == "u" then
+	if direction == "U" or direction == "D" then
 		x = x - 48
 		y = (mapHeight - y) - 48
-	elseif direction == "d" then
-		x = x - 48
-		y = (mapHeight - y) - 48		
-	elseif direction == "l" then
+	elseif direction == "L" or direction == "R" then
 		x = (mapWidth - x) - 48
-		y =  y - 48
-	elseif direction == "r" then
-		x = (mapWidth - x) -- 32
 		y =  y - 48
 	end
 
 	local fx, fy = math.floor(x / tileW), math.floor(y / tileH)
 	local cx, cy = math.ceil(x / tileW), math.ceil(y / tileH)
 
-	if cx <= 0 then
-		cx = cx + 1
-	end
+	local tempC = changeZero(cx, cy, fx, fy)
 
-	if fx <= 0 then
-		fx = fx + 1
-	end
-
-	if cy <= 0 then
-		cy = cy + 1
-	end	
-
-	if fy <= 0 then
-		fy = fy + 1
-	end	
-
-
-	corners = { 
-		tileTable[fx][fy],
-		tileTable[cx][fy],
-		tileTable[cx][cy],
-		tileTable[fx][cy]
-	}
-
-	local spawn = ""
-
-	for key,value in ipairs(corners) do
-		for i=1, #quadType do
-			if (quadType[i][1] == value) then
-				spawn = quadType[i][1]
-			end
-		end
-	end
-
-	return (cx*tileW)+16, (cy*tileH)+16
+	return (tempC[1]*tileW)+16, (tempC[2]*tileH)+16
 end
 
 function checkTile(x, y, projectile)
@@ -246,10 +223,10 @@ function checkTile(x, y, projectile)
 	local cx, cy = math.ceil(x / tileW), math.ceil(y / tileH)
 
 	corners = { 
-		tileTable[fx][fy],
-		tileTable[cx][fy],
-		tileTable[cx][cy],
-		tileTable[fx][cy]
+		tileTable[fx][fy][1],
+		tileTable[cx][fy][1],
+		tileTable[cx][cy][1],
+		tileTable[fx][cy][1]
 	}
 
 	local result = true
@@ -258,25 +235,19 @@ function checkTile(x, y, projectile)
 	for key,value in ipairs(corners) do
 		for i=1, #quadType do
 			if (quadType[i][1] == value) then
+				local tps = { 'U', 'D', 'L', 'R' }
 				result = quadType[i][4]
 				teleport = quadType[i][1]
-
+				
 				if not projectile then
-					if teleport == "U" then
-						transition('u', x, y, quadType[i][4])
-						return
-					elseif teleport == "D" then
-						transition('d', x, y, quadType[i][4])
-						return
-					elseif teleport == "R" then	
-						transition('r', x, y, quadType[i][4])
-						return
-					elseif teleport == "L" then
-						transition('l', x, y, quadType[i][4])
-						return
+					for j=1, #tps do 
+						if string.match(teleport, tps[j]) then
+							transition(teleport, x, y, quadType[i][4])
+							return
+						end
 					end
-
 				end
+
 				if (not result) then
 					return result
 				end
@@ -297,7 +268,7 @@ function drawMap()
 	for columnIndex, column in ipairs(tileTable) do
 		for rowIndex, char in ipairs(column) do 
 			local mapW, mapH = (columnIndex - 1) * tileW, (rowIndex - 1) * tileH
-			lg.draw(tileset, quads[char], mapW, mapH )
+			lg.draw(tileset, quads[char[1]], mapW, mapH )
 		end
 	end
 end
