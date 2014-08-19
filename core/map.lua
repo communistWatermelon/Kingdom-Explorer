@@ -8,6 +8,12 @@ function removeMobs()
 	end
 end
 
+function removeDestructables()
+	for k in pairs (destructsTable) do
+		destructsTable[k] = nil
+	end
+end
+
 function addMobs(mobs)
 	local tempMobX, tempMobY = 100, 100
 	for i=1, #mobs do
@@ -31,9 +37,14 @@ function addDestructables(quadType)
 	end
 end
 
-function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
+function clearMap()
 	removeMobs()
-	
+	removeDestructables()
+end
+
+function newMap(tileWidth, tileHeight, tilesetPath, tileString, quadInfo)
+	clearMap()
+
 	mapX = 0
 	mapY = 0
 	tileW = tileWidth
