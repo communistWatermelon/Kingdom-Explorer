@@ -231,13 +231,6 @@ function checkTile(x, y, projectile)
 		tileTable[tempC[3]][tempC[2]][1]
 	}
 
-	--corners = { 
-	--	tileTable[fx][fy][1],
-	--	tileTable[cx][fy][1],
-	--	tileTable[cx][cy][1],
-	--	tileTable[fx][cy][1]
-	--}
-
 	local result = true
 	local teleport = 0
 
