@@ -34,6 +34,7 @@ function love.load()
 	loadMap('/maps/' .. maps[4] .. '.lua')
 	loadHero()
 	loadOverlay(hero)
+	scaleH = lg.getHeight() / (32 * 18)
 end
 
 function love.update(dt)
@@ -77,22 +78,21 @@ function love.mousereleased(x, y, button, isTouch)
 end
 
 function love.resize(w, h)
-	scaleW = w / 800
-	scaleH = h / 576
-
+	scaleH = lg.getHeight() / (32 * 18)
 	resizeOverlay(w, h)
 end
 
 function love.draw()
 	lg.push()
-		lg.translate(mapX, mapY)		
+		lg.scale(1, scaleH)
+		lg.translate(mapX, mapY)
 		drawMap(currentMap)
 		drawCharacters()
 		drawDestructables()
 		drawDrops()
 		drawProjectiles()
-	lg.pop()
-	
+	lg.pop()	
+
 	drawOverlay()
 	drawEquipped()
 	love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)

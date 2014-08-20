@@ -30,6 +30,6 @@ local quadInfo = {
 	{ "l", 0, 0, true, true } 	-- long grass
 }
 
-local mobs = { {"fire", 3}, {"nerd", 1} } --define mobs by their name, and a number
+local mobs = { {"walk", 3}, {"nerd", 1} } --define mobs by their name, and a number
 newMap(32, 32,'/assets/countryside.png', tileString, quadInfo)
 addMobs(mobs)
