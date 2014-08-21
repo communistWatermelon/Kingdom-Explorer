@@ -79,20 +79,24 @@ function love.mousereleased(x, y, button, isTouch)
 end
 
 function love.resize(w, h)
-	scaleH = lg.getHeight() / (32 * 18)
-	scaleW = lg.getWidth() / (32 * 25)
+	scaleH = (lg.getHeight() / (32 * 18))
+	scaleW = (lg.getWidth() / (32 * 25))
+	-- also resize whatever it is you're using for the map scroll limits
+	resizeMap()
 	resizeOverlay(w, h)
 end
 
 function love.draw()
 	lg.push()
-		lg.scale(1, scaleH)
+		lg.scale(scaleW, scaleH)
 		lg.translate(mapX, mapY)
-		drawMap(currentMap)
-		drawCharacters()
-		drawDestructables()
-		drawDrops()
-		drawProjectiles()
+		lg.push()
+			drawMap(currentMap)
+			drawCharacters()
+			drawDestructables()
+			drawDrops()
+			drawProjectiles()
+		lg.pop()	
 	lg.pop()	
 
 	drawOverlay()

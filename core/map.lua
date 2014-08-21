@@ -204,6 +204,7 @@ function moveMap(dt, mX, mY)
 
 	if mX == "right" then
 		if 0 < (mapWidth + mapX - lg.getWidth()) then
+			print(mapWidth + mapX)
 			mapX = mapX - math.ceil(dt * (scrollSpeed - 0))
 		end
 	elseif mX == "left" then
@@ -211,6 +212,11 @@ function moveMap(dt, mX, mY)
 			mapX = mapX + math.ceil(dt * (scrollSpeed - 0))
 		end
 	end
+end
+
+function resizeMap()
+	mapWidth = #tileTable * (tileW*scaleW)
+	mapHeight = #tileTable[1] * (tileH*scaleH)
 end
 
 function transition(direction, x, y, map)
