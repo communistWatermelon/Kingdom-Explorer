@@ -89,11 +89,11 @@ function mouseMoveMap(dt, x, y, mX, mY)
 	local tempx = mapX
 	local tempy = mapY
 
-	if tempY < (mapHeight / 2) - (mapHeight / 8)  or tempY > (mapHeight - (mapHeight / 2) + (mapHeight / 8)) then
-		scrollSpeed = scrollSpeed - 30
-	elseif tempX < (mapWidth / 2) - (mapWidth / 8)  or tempX > (mapWidth - (mapWidth / 2) + (mapWidth / 8)) then
-		scrollSpeed = scrollSpeed - 30
-	end
+	-- if tempY < (mapHeight / 2) - (mapHeight / 8)  or tempY > (mapHeight - (mapHeight / 2) + (mapHeight / 8)) then
+	-- 	scrollSpeed = scrollSpeed - 30
+	-- elseif tempX < (mapWidth / 2) - (mapWidth / 8)  or tempX > (mapWidth - (mapWidth / 2) + (mapWidth / 8)) then
+	-- 	scrollSpeed = scrollSpeed - 30
+	-- end
 
 	if (math.abs(x) > 5) then
 		if math.abs(x) < 30 then
@@ -144,9 +144,23 @@ function mouseMoveMap(dt, x, y, mX, mY)
 	end
 end
 
-function transitionMap(x, y)
-	mapX = -(x - (lg.getWidth() / 2))
-	mapY = -(y - (lg.getHeight() / 2))
+function transitionMap(x, y, direction)
+	local modX = 0
+	local modY = 0
+
+	if direction == "U" then
+		mapY = 0
+	elseif direction == "D" then
+		mapY = mapHeight - lg.getHeight()
+	elseif direction == "L" then
+		mapX = 0 - mapWidth + lg.getWidth()
+	elseif direction == "R" then
+		mapX = 0
+	end
+
+	if mapY <= 0 then
+		mapY = 0
+	end
 end
 
 function shiftMap(x, y)
@@ -169,14 +183,14 @@ function shiftMap(x, y)
 end
 
 function moveMap(dt, mX, mY)
-	scrollSpeed = getSpeed(hero) - 30
+	scrollSpeed = getSpeed(hero) - 40
 	local loc = getLocation(hero)
 
-	if loc.x < (mapHeight / 2) - (mapHeight / 8)  or loc.y > (mapHeight - (mapHeight / 2) + (mapHeight / 8)) then
-		scrollSpeed = scrollSpeed - 30
-	elseif loc.x < (mapWidth / 2) - (mapWidth / 8)  or loc.y > (mapWidth - (mapWidth / 2) + (mapWidth / 8)) then
-		scrollSpeed = scrollSpeed - 30
-	end
+	-- if loc.x < (mapHeight / 2) - (mapHeight / 8)  or loc.y > (mapHeight - (mapHeight / 2) + (mapHeight / 8)) then
+	-- 	scrollSpeed = scrollSpeed - 30
+	-- elseif loc.x < (mapWidth / 2) - (mapWidth / 8)  or loc.y > (mapWidth - (mapWidth / 2) + (mapWidth / 8)) then
+	-- 	scrollSpeed = scrollSpeed - 30
+	-- end
 
 	if mY == "up" then
 		if mapY < 0 then
@@ -203,7 +217,7 @@ function transition(direction, x, y, map)
 	tx, ty = findSpawn(x, y, direction)
 	setLocation(hero, tx, ty)
 	loadMap('/maps/' .. map)
-	transitionMap(tx, ty)
+	transitionMap(tx, ty, direction)
 end
 
 function findSpawn(x, y, direction)

@@ -35,6 +35,7 @@ function love.load()
 	loadHero()
 	loadOverlay(hero)
 	scaleH = lg.getHeight() / (32 * 18)
+	scaleW = lg.getWidth() / (32 * 25)
 end
 
 function love.update(dt)
@@ -79,6 +80,7 @@ end
 
 function love.resize(w, h)
 	scaleH = lg.getHeight() / (32 * 18)
+	scaleW = lg.getWidth() / (32 * 25)
 	resizeOverlay(w, h)
 end
 
