@@ -19,6 +19,7 @@ function setVariables()
 	lg = love.graphics
 	lm = love.mouse
 	lf = love.filesystem
+	
 	mapX, mapY = 0, 0
 	maps = {'coredump', 'chez-peter', 'map1', 'map2'}
 	
